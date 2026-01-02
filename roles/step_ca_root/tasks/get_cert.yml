@@ -1,0 +1,21 @@
+---
+- name: Download root cert
+  maxhoesel.smallstep.step_ca_root:
+    root_file: "{{ step_ca_root_certfile_full.path }}"
+    force: "{{ step_ca_root_force | d(omit) }}"
+    ca_url: "{{ step_bootstrap_ca_url|default(omit) }}"
+    fingerprint: "{{ step_bootstrap_fingerprint|default(omit) }}"
+    step_cli_executable: "{{ step_cli_executable }}"
+  become: yes
+  environment:
+    STEPPATH: "{{ step_cli_steppath }}"
+
+- name: Ensure file permissions are set
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "{{ item.mode }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+  become: yes
+  loop:
+    - "{{ step_ca_root_certfile_full }}"

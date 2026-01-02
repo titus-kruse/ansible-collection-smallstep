@@ -1,0 +1,23 @@
+---
+- include_tasks: check.yml
+
+- name: Update certfile dicts with defaults
+  set_fact:
+    # Role params take precedence over set_fact, so we need to declare a new private variable
+    step_ca_root_certfile_full: "{{ step_ca_root_certfile_defaults | combine(step_ca_root_certfile) }}"
+
+- name: Look for existing certificate
+  stat:
+    path: "{{ step_ca_root_certfile_full.path }}"
+  register: step_ca_root_current_cert
+
+- name: Check if certificate is valid
+  command: "step-cli certificate verify {{ step_ca_root_certfile_full.path }}"
+  changed_when: no
+  check_mode: no
+  ignore_errors: true
+  register: _step_ca_root_validity
+  when: step_ca_root_current_cert.stat.exists
+
+- include_tasks: get_cert.yml
+  when: 'not step_ca_root_current_cert.stat.exists or "failed to verify certificate" in _step_ca_root_validity.stderr'

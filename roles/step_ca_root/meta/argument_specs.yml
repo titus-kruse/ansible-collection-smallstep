@@ -1,0 +1,39 @@
+argument_specs:
+  main:
+    short_description: Main entrypoint
+    options:
+      step_cli_executable:
+        type: path
+        description: Path or name of the step-cli executable to use for executing commands in this role
+        default: step-cli
+      step_ca_root_certfile:
+        type: dict
+        required: yes
+        description: Details about the cert file on disk
+        options:
+          path:
+            type: path
+            default: /etc/ssl/root.crt
+            description: Absolute path to the cert file
+          mode:
+            type: str
+            default: '644'
+            description: File mode for the cert file
+          owner:
+            type: str
+            default: root
+            description: Owner of the file
+          group:
+            type: str
+            default: root
+            description: Group of the file
+      step_ca_root_force:
+        type: bool
+        default: no
+        description: Whether to force bootstrapping of the CA configuration.
+      step_bootstrap_ca_url:
+        type: str
+        description: URL of the step-ca CA
+      step_bootstrap_fingerprint:
+        type: str
+        description: Fingerprint of the CA root cert
