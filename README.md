@@ -10,7 +10,7 @@ and the [CLI tool](https://github.com/smallstep/cli). Possible uses for this col
 - Managing your `step-ca` server install (installation, configuration, provisioners)
 - Automated bootstrapping of hosts to trust your CA
 - Token or certificate creation from within your Ansible playbooks
-- [Complete configuration of client certificates via ACME, including automatic renewal](roles/step_acme_cert/README.md)
+- [Complete configuration of client certificates, including automatic renewal](roles/step_certificate/README.md)
 
 ## Components
 
@@ -28,7 +28,8 @@ and the [CLI tool](https://github.com/smallstep/cli). Possible uses for this col
 |------|-------------|
 | [`step_ca`](roles/step_ca/README.md) | Install step-ca as an internal CA.
 | [`step_bootstrap_host`](roles/step_bootstrap_host/README.md) | Configure a client host to trust your CA using step-cli.
-| [`step_acme_cert`](roles/step_acme_cert/README.md) | Set up a Let's Encrypt-style certificate on a host using your ca, including automatic renewal.
+| [`step_acme_cert`](roles/step_acme_cert/README.md) | Set up a Let's Encrypt-style certificate on a host using your ca, including automatic renewal (deprecated, use role step_certificate instead).
+| [`step_certificate`](roles/step_certificate/README.md) | Create a new host certificate from a CA, including automatic renewal. Supports provisioner of type ACME, JWK.
 | [`step_cli`](roles/step_cli/README.md) | Install step-cli and nothing else. Used by bootstrap_host and step_ca under the hood.
 
 ### Modules

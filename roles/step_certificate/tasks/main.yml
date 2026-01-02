@@ -1,0 +1,6 @@
+# tasks file for step_certificate
+---
+- include_tasks: check.yml
+- include_tasks: vars.yml
+- include_tasks: cert.yml
+- include_tasks: renewal.yml
