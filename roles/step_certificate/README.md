@@ -87,10 +87,20 @@ before setting up a renewal service using `step-cli ca renew`s `--daemon` mode.
 
 ### Renewal
 
+##### `step_cert_renewal_service_type`
+- Type of renewal service. One of the following options:
+  - `daemon`: Run step-cli command in daemon mode monitoring the certificate (default).
+  - `timer`: Use systemd timer to periodically check certificate.
+
 ##### `step_cert_renewal_service`
 - Name of the `systemd` service that will handle cert renewals
 - If you have multiple cert/key pairs on one system, you will have to set a unique service name for each pair.
 - Default: `step-renew`
+
+##### `step_cert_renewal_service_interval`
+- Systemd timer interval as unit property `OnCalendar`.
+- For `step_cert_renewal_service_type` of type `timer` only.
+- Default `*:1/15` (every 15 minutes)
 
 ##### `step_cert_renewal_when`
 - Renew the cert when its remaining valid time crosses this threshold

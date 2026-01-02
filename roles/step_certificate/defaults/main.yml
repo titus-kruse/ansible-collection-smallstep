@@ -27,6 +27,10 @@ step_cert_keyfile_defaults:
   owner: root
   group: root
 
+# Use step-cli daamon as default
+step_cert_renewal_service_type: daemon
 step_cert_renewal_service: step-renew
+# Run the timer unit every 15 minutes
+step_cert_renewal_service_interval: '*:1/15'
 #step_cert_renewal_when: 8h
 step_cert_renewal_reload_services: []
