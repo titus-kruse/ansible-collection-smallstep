@@ -1,0 +1,4 @@
+# tasks file for step_ca_token
+---
+- include_tasks: check.yml
+- include_tasks: token.yml

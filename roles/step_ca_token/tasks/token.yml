@@ -1,0 +1,40 @@
+---
+- name: JWK Certificate Creation (Block)
+  block:
+
+    - name: Create temproary file for JWK password
+      ansible.builtin.tempfile:
+        state: file
+        suffix: jwk
+      register: _jwk_password_file
+      when:
+        - step_cert_ca_jwk_password is defined
+        - step_cert_ca_jwk_password | length > 0
+
+    - name: Deploy JWK provisioner password to temporary file
+      copy:
+        dest: "{{ _jwk_password_file.path }}"
+        content: "{{ step_cert_ca_jwk_password }}"
+        mode: 0600
+      no_log: true
+      when:
+        - _jwk_password_file.path is defined
+
+    - name: Generate JWK certificate token
+      maxhoesel.smallstep.step_ca_token:
+        subject: "{{ step_ca_token_subject }}"
+        san: "{{ step_ca_token_san }}"
+        provisioner: "{{ step_cert_ca_provisioner_name }}"
+        provisioner_password_file: "{{ _jwk_password_file.path | d(step_cert_ca_jwk_password_file) | mandatory }}"
+        return_token: true
+        step_cli_executable: "{{ step_cli_executable }}"
+      environment:
+        STEPPATH: "{{ step_cli_steppath }}"
+      register: step_ca_token_result
+
+  always:
+    - name: Remove temporary JWK password file
+      ansible.builtin.file:
+        path: "{{ _jwk_password_file.path }}"
+        state: absent
+      when: _jwk_password_file.path is defined

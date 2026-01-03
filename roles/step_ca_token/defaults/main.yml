@@ -1,0 +1,10 @@
+---
+step_cli_executable: step-cli
+step_cli_steppath: /root/.step
+
+# Required parameters - role will error if either is not provided
+#step_cert_ca_provisioner_name:
+#step_cert_ca_jwk_password:
+#step_cert_ca_jwk_password_file:
+step_ca_token_subject: "{{ ansible_fqdn }}"
+step_ca_token_san: []

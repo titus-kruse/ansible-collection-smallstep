@@ -1,0 +1,32 @@
+argument_specs:
+  main:
+    short_description: Main entrypoint
+    options:
+      step_cli_executable:
+        type: path
+        description: Path or name of the step-cli executable to use for executing commands in this role
+        default: step-cli
+      # Provisioner Selection
+      step_cert_ca_provisioner_name:
+        type: str
+        required: yes
+        description: Name of the provisioner on the CA that will issue the certificate
+      # Provisioner options
+      step_cert_ca_jwk_password:
+        type: str
+        default: ""
+        description: Password used to decrypt the one-time token generating key from a JWK provisioner on the CA.  Either this or `step_cert_ca_jwk_password_file` is required for JWK Provisioners.
+      step_cert_ca_jwk_password_file:
+        type: str
+        default: ""
+        description: Path to the file on the client system containing the password used to decrypt the one-time token generating key from a JWK provisioner on the CA
+      # Certificate Options
+      step_ca_token_subject:
+        type: str
+        default: '{{ ansible_fqdn }}'
+        description: The subject name for which the certificate will be issued
+      step_ca_token_san:
+        type: list
+        elements: str
+        default: []
+        description: Subject Alternate Names to add to the certificate
