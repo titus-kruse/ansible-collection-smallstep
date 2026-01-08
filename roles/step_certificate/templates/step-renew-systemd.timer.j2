@@ -6,7 +6,7 @@ PartOf=cert-renewer.target
 [Timer]
 Persistent=true
 
-; Run the timer unit every 15 minutes.
+; Calendar event expressions. See systemd.time(7) for more information.
 OnCalendar={{ step_cert_renewal_service_interval }}
 
 ; Always run the timer on time.

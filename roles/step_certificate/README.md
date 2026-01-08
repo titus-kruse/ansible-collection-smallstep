@@ -98,7 +98,7 @@ before setting up a renewal service using `step-cli ca renew`s `--daemon` mode.
 - Default: `step-renew`
 
 ##### `step_cert_renewal_service_interval`
-- Systemd timer interval as unit property `OnCalendar`.
+- Systemd timer interval as unit property `OnCalendar`. See systemd.time(7) for more information.
 - For `step_cert_renewal_service_type` of type `timer` only.
 - Default `*:1/15` (every 15 minutes)
 
