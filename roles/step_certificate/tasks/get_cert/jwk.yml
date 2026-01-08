@@ -36,7 +36,6 @@
         provisioner: "{{ step_cert_ca_provisioner_name }}"
         token: "{{ _step_cert_token.token }}"
         name: '{{ step_cert_name }}'
-        san: "{{ step_cert_san }}"
         contact: "{{ step_cert_contact }}"
         not_after: "{{ step_cert_duration | d(omit) }}"
         crt_file: "{{ step_cert_certfile_full.path }}"
