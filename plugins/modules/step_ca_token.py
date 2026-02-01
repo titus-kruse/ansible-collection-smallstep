@@ -14,6 +14,7 @@ description: >
   but you can also save it on the remote host if you prefer.
 notes:
   - Check mode is supported.
+  - This module currently not supports all options provided by step-cli command.
 options:
   cert_not_after:
     description: >

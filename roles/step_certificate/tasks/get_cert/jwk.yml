@@ -2,7 +2,7 @@
 - name: JWK Certificate Creation (Block)
   block:
 
-    - name: Create temproary file for JWK password
+    - name: Create temporary file for JWK password
       ansible.builtin.tempfile:
         state: file
         suffix: jwk

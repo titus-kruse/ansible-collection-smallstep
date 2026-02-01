@@ -9,13 +9,14 @@ __metaclass__ = type
 DOCUMENTATION = r"""
 ---
 module: step_ca_root
-author: Max Hösel (@maxhoesel)
+author: Titus Kruse <mail@tituskruse.de>
 short_description: Download and validate the root certificate
-version_added: '0.24.5'
+version_added: '0.25.0'
 description: >
   Downloads and validates the root certificate from the certificate authority and writes it to a file.
 notes:
   - Check mode is supported.
+  - This module currently not supports all options provided by step-cli command.
 options:
   root_file:
     description: File to write the root certificate file (PEM format)
