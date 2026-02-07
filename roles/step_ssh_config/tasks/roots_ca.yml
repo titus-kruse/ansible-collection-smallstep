@@ -1,0 +1,43 @@
+---
+- name: Update file dicts with defaults
+  set_fact:
+    # Role params take precedence over set_fact, so we need to declare a new private variable
+    step_ssh_config_roots_ca_file_full: "{{ step_ssh_config_roots_ca_file_defaults | combine(step_ssh_config_roots_ca_file) }}"
+
+- name: Configure ssh to be used with certificates
+  maxhoesel.smallstep.step_ssh_config:
+    host: "{{ step_ssh_config_host | d(omit) }}"
+    roots: "{{ step_ssh_config_roots | d(omit) }}"
+    ca_url: "{{ step_bootstrap_ca_url|default(omit) }}"
+    step_cli_executable: "{{ step_cli_executable }}"
+  become: yes
+  become_user: "{{ step_ssh_config_user }}"
+  environment:
+    STEPPATH: "{{ step_ssh_config_steppath }}"
+  register: _step_ssh_config
+  changed_when: false
+
+- name: Deploy CA public key file
+  copy:
+    dest: "{{ step_ssh_config_roots_ca_file_full.path }}"
+    content: "{{ _step_ssh_config.roots }}"
+    mode: "{{ step_ssh_config_roots_ca_file_full.mode }}"
+    owner: "{{ step_ssh_config_roots_ca_file_full.owner }}"
+    group: "{{ step_ssh_config_roots_ca_file_full.group }}"
+  become: yes
+  become_user: "{{ step_ssh_config_user }}"
+  when:
+    - step_ssh_config_roots | bool
+    - _step_ssh_config.roots is defined
+
+- name: Add CA public key to SSHd service configuration
+  ansible.builtin.template:
+    dest: /etc/ssh/sshd_config.d/step-trusted-user-ca-keys.conf
+    src: sshd-trusted-user-ca-keys.j2
+    mode: u=rw,g=,o=
+    validate: /usr/sbin/sshd -t -f %s
+  notify:
+    - restart sshd
+  when:
+    - step_ssh_config_roots | bool
+    - _step_ssh_config.roots is defined

@@ -1,0 +1,19 @@
+---
+- name: Configure generated host key on SSHd server
+  ansible.builtin.template:
+    dest: /etc/ssh/sshd_config.d/step-host-key.conf
+    src: sshd-host-key.j2
+    mode: u=rw,g=,o=
+    validate: /usr/sbin/sshd -t -f %s
+  when: not _step_ssh_key_private_stat.stat.exists
+  notify:
+    - restart sshd
+
+- name: Configure CA host certificate on SSHd server
+  ansible.builtin.template:
+    dest: /etc/ssh/sshd_config.d/step-host-cert.conf
+    src: sshd-host-certificate.j2
+    mode: u=rw,g=,o=
+    validate: /usr/sbin/sshd -t -f %s
+  notify:
+    - restart sshd

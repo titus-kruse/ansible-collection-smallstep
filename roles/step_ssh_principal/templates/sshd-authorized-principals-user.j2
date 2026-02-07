@@ -1,0 +1,12 @@
+#
+# Authorized Principals files for user '{{ item.user }}'
+#
+# {{ ansible_managed }}
+#
+{% if item.principals | d([]) | length > 0 %}
+{% for principal in item.principals %}
+{{ principal }}
+{% endfor %}
+{% else %}
+{{ item.user }}
+{% endif %}

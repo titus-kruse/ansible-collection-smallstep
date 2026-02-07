@@ -1,0 +1,31 @@
+---
+- name: Configure SSHd authorized principals
+  ansible.builtin.template:
+    dest: /etc/ssh/sshd_config.d/step-authorized-principals.conf
+    src: sshd-authorized-principals-conf.j2
+    mode: u=rw,g=,o=
+    validate: /usr/sbin/sshd -t -f %s
+  notify:
+    - restart sshd
+
+- name: Ensure auth principals directory exists
+  ansible.builtin.file:
+    path: /etc/ssh/auth_principals
+    state: directory
+
+- name: Configure auth principals users
+  ansible.builtin.template:
+    dest: "{{ ['/etc/ssh/auth_principals', item.user] | path_join }}"
+    src: sshd-authorized-principals-user.j2
+    mode: u=rw,g=r,o=r
+  loop: "{{ step_ssh_principal_users }}"
+  when: item.state | d('present') == 'present'
+  #notify: No need to restart sshd service
+  #  - restart sshd
+
+- name: Remove auth principals users
+  ansible.builtin.file:
+    path: "{{ ['/etc/ssh/auth_principals', item.user] | path_join }}"
+    state: absent
+  loop: "{{ step_ssh_principal_users }}"
+  when: item.state | d('present') == 'absent'

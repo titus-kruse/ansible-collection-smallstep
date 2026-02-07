@@ -1,0 +1,10 @@
+---
+#
+# tasks files for step_ssh_config
+#
+- ansible.builtin.include_tasks: check.yml
+- ansible.builtin.include_tasks: roots_ca.yml
+  when: not step_ssh_config_host | bool
+- ansible.builtin.include_tasks: roots_host.yml
+  when: step_ssh_config_host | bool
+#- ansible.builtin.include_tasks: renewal.yml

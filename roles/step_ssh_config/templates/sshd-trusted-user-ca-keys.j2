@@ -1,0 +1,6 @@
+#
+# Smallstep CA's public key for authenticating user certificates
+#
+# {{ ansible_managed }}
+#
+TrustedUserCAKeys {{ step_ssh_config_roots_ca_file_full.path }}

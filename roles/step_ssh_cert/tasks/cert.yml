@@ -1,0 +1,88 @@
+---
+- name: SSH Certificate Creation (Block)
+  become_user: "{{ step_ssh_cert_user }}"
+  block:
+
+    # TODO: Shall temp files be created even in check mode??!
+    - name: Create temporary file for provisioner password
+      ansible.builtin.tempfile:
+        state: file
+        suffix: pw
+      register: _provisioner_password_file
+      when:
+        - step_ssh_cert_ca_provisioner_password is defined
+        - step_ssh_cert_ca_provisioner_password | length > 0
+
+    - name: Deploy provisioner password to temporary file
+      copy:
+        dest: "{{ _provisioner_password_file.path }}"
+        content: "{{ step_ssh_cert_ca_provisioner_password }}"
+        mode: 0600
+      no_log: true
+      when: _provisioner_password_file.path is defined
+
+    - name: Create temporary file for key password
+      ansible.builtin.tempfile:
+        state: file
+        suffix: pw
+      register: _key_password_file
+      when:
+        - step_ssh_cert_key_password is defined
+        - step_ssh_cert_key_password | length > 0
+
+    - name: Deploy key password to temporary file
+      copy:
+        dest: "{{ _key_password_file.path }}"
+        content: "{{ step_ssh_cert_key_password }}"
+        mode: 0600
+      no_log: true
+      when: _key_password_file.path is defined
+
+    - debug:
+        var: "{{ item }}"
+      loop:
+        - step_ssh_cert_host
+        - step_ssh_cert_user
+        - step_ssh_cert_keyid
+        - step_ssh_cert_keyfile
+        - step_ssh_cert_sign
+        - step_ssh_cert_principal
+        - step_ssh_cert_ca_provisioner
+        - step_ssh_cert_ca_provisioner_password
+        - step_ssh_cert_ca_provisioner_password_file
+        - step_ssh_cert_steppath
+
+    - name: Generate provisioner certificate token
+      maxhoesel.smallstep.step_ca_token:
+        ssh: true
+        name: "{{ step_ssh_cert_keyid }}"
+        principal: "{{ step_ssh_cert_principal }}"
+        cert_not_after: "{{ step_ssh_cert_duration }}"
+        host: "{{ step_ssh_cert_host }}"
+        provisioner: "{{ step_ssh_cert_ca_provisioner }}"
+        provisioner_password_file: "{{ _provisioner_password_file.path | d(step_ssh_cert_ca_provisioner_password_file) | mandatory }}"
+        return_token: true
+        step_cli_executable: "{{ step_cli_executable }}"
+      environment:
+        STEPPATH: "{{ step_ssh_cert_steppath }}"
+      register: _step_cert_token
+
+    - ansible.builtin.include_tasks: cert_host.yml
+      when: step_ssh_cert_host | bool
+    - ansible.builtin.include_tasks: cert_user.yml
+      when: not step_ssh_cert_host | bool
+
+  # BLOCK Handling: cleanup temporary files
+  always:
+    - name: Remove temporary provisioner password file
+      ansible.builtin.file:
+        path: "{{ _provisioner_password_file.path }}"
+        state: absent
+      when: _provisioner_password_file.path is defined
+    - name: Remove temporary key password file
+      ansible.builtin.file:
+        path: "{{ _key_password_file.path }}"
+        state: absent
+      when: _key_password_file.path is defined
+
+# END BLOCK: provisioner Certificate Creation (Block)

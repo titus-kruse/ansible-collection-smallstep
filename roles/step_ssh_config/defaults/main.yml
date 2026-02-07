@@ -1,0 +1,25 @@
+---
+step_cli_executable: step-cli
+step_cli_steppath: /root/.step
+
+step_ssh_config_user: root
+step_ssh_config_steppath: "{{ ansible_env.HOME }}/.step"
+
+#step_bootstrap_ca_url:
+
+step_ssh_config_host: no
+step_ssh_config_roots: no
+
+step_ssh_config_roots_ca_file: "{{ step_ssh_config_roots_ca_file_defaults }}"
+step_ssh_config_roots_ca_file_defaults:
+  path: /etc/ssh/ssh_ca_user_key.pub
+  mode: "644"
+  owner: root
+  group: root
+
+step_ssh_config_roots_hosts_file: "{{ step_ssh_config_roots_hosts_file_defaults }}"
+step_ssh_config_roots_hosts_file_defaults:
+  path: ~/.ssh/known_hosts
+  mode: "644"
+  owner: "{{ step_ssh_config_user }}"
+  group: "{{ step_ssh_config_user }}"
