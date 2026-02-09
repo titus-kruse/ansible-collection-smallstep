@@ -1,0 +1,83 @@
+argument_specs:
+  main:
+    short_description: Main entrypoint
+    options:
+      step_cli_executable:
+        type: path
+        description: Path or name of the step-cli executable to use for executing commands in this role
+        default: step-cli
+      step_ssh_cert_steppath:
+        type: path
+        description:
+          - Set this if C(step_ssh_cert_user) requires a custom C(steppath) from which to read the step config
+          - "Example: C(/etc/step-cli)"
+        default: $HOME/.step
+      # Type of certificate (host/user)
+      step_ssh_cert_host:
+        type: bool
+        default: no
+        description: Issues a host certificate instead of a user one.
+      # Provisioner Selection
+      step_ssh_cert_ca_provisioner:
+        type: str
+        required: yes
+        description: Name of the provisioner on the CA that will issue the certificate
+      # Provisioner options
+      step_ssh_cert_ca_provisioner_password:
+        type: str
+        default: ""
+        description: Password used to decrypt the one-time token generating key from a provisioner on the CA. Either this or `step_ssh_cert_ca_provisioner_password_file` is required for Provisioners.
+      step_ssh_cert_ca_provisioner_password_file:
+        type: str
+        default: ""
+        description: Path to the file on the client system containing the password used to decrypt the one-time token generating key from a provisioner on the CA.
+      # Certificate and Key Options
+      step_ssh_cert_keyid:
+        type: str
+        required: yes
+        description: The certificate identity. If no principals are passed key-id will be used as a principal, if it has the format abc@def then the principal will be abc.
+      step_ssh_cert_keyfile:
+        type: str
+        required: yes
+        description: The private key name when generating a new key pair, or the public key path when we are just signing it.
+      step_ssh_cert_sign:
+        type: bool
+        default: no
+        description: Sign the public key passed as an argument instead of creating one.
+      step_ssh_cert_force:
+        type: bool
+        default: no
+        description: Force the overwrite of files without asking.
+      step_ssh_cert_insecure:
+        type: bool
+        default: no
+        description: Option no_password requires this insecure flag.
+      step_ssh_cert_no_password:
+        type: bool
+        default: no
+        description: Don't use password to encrypt a private key. Sensitive key material will be written to disk unencrypted. This is not recommended. Requires --insecure flag.
+      step_ssh_cert_principal:
+        type: list
+        elements: str
+        default: []
+        description: Add the specified principals (user or host names) to the certificate
+      step_ssh_cert_duration:
+        type: str
+        description: Valid duration of the certificate
+      # Renewal Options
+      step_ssh_cert_renewal_service:
+        type: str
+        default: step-renew-ssh
+        description: Name of the `systemd` service that will handle certificate renewals
+      step_ssh_cert_renewal_service_interval:
+        type: str
+        default: daily
+        description: Interval the `systemd` service will check for certificate renewal. See manual for systemd.time for details about time and interval formats.
+      step_ssh_cert_renewal_when:
+        type: str
+        description: Renew the certificate when its remaining valid time crosses this threshold
+      step_ssh_cert_renewal_reload_services:
+        type: list
+        elements: str
+        default: [ssh.service]
+        description: Reload or restart these systemd services after a certificate renewal

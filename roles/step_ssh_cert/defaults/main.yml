@@ -4,16 +4,19 @@ step_cli_executable: step-cli
 step_ssh_cert_user: root
 step_ssh_cert_steppath: "{{ ansible_env.HOME }}/.step"
 
+#step_ssh_cert_keyid:
+#step_ssh_cert_keyfile:
 #step_ssh_cert_ca_provisioner:
 
-step_ssh_cert_principal: []
-step_ssh_cert_duration: 24h
 step_ssh_cert_host: no
 step_ssh_cert_sign: no
 step_ssh_cert_force: no
-step_ssh_cert_no_password: no
 step_ssh_cert_insecure: no
+step_ssh_cert_no_password: no
+step_ssh_cert_principal: []
+step_ssh_cert_duration: 24h
 
-#step_ssh_cert_renewal_service: step-renew
-##step_ssh_cert_renewal_when: 8h
-#step_ssh_cert_renewal_reload_services: []
+step_ssh_cert_renewal_service: step-renew-ssh
+step_ssh_cert_renewal_service_interval: 'daily'
+#step_ssh_cert_renewal_when: 8h
+step_ssh_cert_renewal_reload_services: [ssh.service]

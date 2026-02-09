@@ -2,3 +2,7 @@
 - name: restart sshd
   ansible.builtin.service: name=sshd state=restarted
   when: not ansible_check_mode
+- name: restart ssh renewal service
+  service:
+    name: '{{ step_ssh_cert_renewal_service }}'
+    state: restarted

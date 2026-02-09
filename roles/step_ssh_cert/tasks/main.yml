@@ -20,13 +20,6 @@
     path: "{{ step_ssh_cert_certificate }}"
   register: _step_ssh_cert_stat
 
-- debug:
-    var: "{{ item }}"
-  loop:
-    - _step_ssh_cert_stat.stat.exists
-    - step_ssh_cert_sign
-    - step_ssh_cert_force
-
 - name: Assert SSH private key not exists if neither signing nor force enabled
   when: not _step_ssh_cert_stat.stat.exists and not step_ssh_cert_sign and not step_ssh_cert_force
   assert:
@@ -42,9 +35,10 @@
 - ansible.builtin.include_tasks: cert.yml
   when: step_ssh_cert_force | bool or not _step_ssh_cert_stat.stat.exists
 
-- name: Configure certificate renewal
-  ansible.builtin.include_tasks: renewal.yml
-
 - name: Configure SSH host key and cert
   when: step_ssh_cert_host | bool
   ansible.builtin.include_tasks: cert_host_config.yml
+
+- name: Configure SSH host certificate renewal
+  when: step_ssh_cert_host | bool
+  ansible.builtin.include_tasks: renewal.yml

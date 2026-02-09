@@ -62,3 +62,29 @@ def get_certificate_info(
     invalid_reason = "" if valid else verify_res.stderr
 
     return CertificateInfo(data, valid, invalid_reason)
+
+def get_ssh_renewal_info(
+    executable: StepCliExecutable, module: AnsibleModule, path: Path, expires_in: str = ""
+) -> CertificateInfo:
+    """Retrieve information about a certificate and return step-cli exit code
+
+    Args:
+        executable (StepCliExecutable): The executable to run this command with
+        module (AnsibleModule): The Ansible module
+        path (Path): Path to the certificate
+        expires_in (str, optional): See step-cli docs. Defaults to "".
+
+    Returns:
+        CertificateInfo: Returns '0' if the SSH certificate needs renewal, '1' if the SSH certificate does not need renewal,
+          '2' if the SSH certificate file does not exist, and '255' for any other error.
+    """
+    verify_args = ["ssh", "needs-renewal", path]
+    if expires_in:
+        verify_args.extend(["--expires-in", expires_in])
+    verify_cmd = CliCommand(executable, CliCommandArgs(verify_args), run_in_check_mode=True, fail_on_error=False)
+    verify_res = verify_cmd.run(module)
+    verify_res_rc = verify_res.rc
+    valid = verify_res_rc == 0
+    invalid_reason = "" if valid else verify_res.stderr
+
+    return CertificateInfo(verify_res_rc, valid, invalid_reason)
