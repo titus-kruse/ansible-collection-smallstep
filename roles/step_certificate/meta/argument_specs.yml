@@ -1,6 +1,6 @@
 argument_specs:
   main:
-    short_description: Main entrypoint
+    short_description: Generate a new private key and certificate signed by the root certificate
     options:
       step_cli_executable:
         type: path
@@ -90,6 +90,10 @@ argument_specs:
         type: str
         default: step-renew
         description: Name of the `systemd` service that will handle certificate renewals
+      step_cert_renewal_service_interval:
+        type: str
+        default: '*:1/15'
+        description: Interval the `systemd` service will check for certificate renewal. See manual for systemd.time for details about time and interval formats,
       step_cert_renewal_when:
         type: str
         description: Renew the certificate when its remaining valid time crosses this threshold

@@ -1,25 +1,25 @@
 argument_specs:
   main:
-    short_description: Main entrypoint
+    short_description: Generate an OTT granting access to the CAMain entrypoint
     options:
       step_cli_executable:
         type: path
         description: Path or name of the step-cli executable to use for executing commands in this role
         default: step-cli
       # Provisioner Selection
-      step_cert_ca_provisioner_name:
+      step_ca_token_provisioner:
         type: str
         required: yes
         description: Name of the provisioner on the CA that will issue the certificate
       # Provisioner options
-      step_cert_ca_jwk_password:
+      step_ca_token_provisioner_password:
         type: str
         default: ""
-        description: Password used to decrypt the one-time token generating key from a JWK provisioner on the CA.  Either this or `step_cert_ca_jwk_password_file` is required for JWK Provisioners.
-      step_cert_ca_jwk_password_file:
+        description: Password used to decrypt the one-time token generating key from a provisioner on the CA.  Either this or `step_ca_token_provisioner_password_file` is required for provisioner.
+      step_ca_token_provisioner_password_file:
         type: str
         default: ""
-        description: Path to the file on the client system containing the password used to decrypt the one-time token generating key from a JWK provisioner on the CA
+        description: Path to the file on the client system containing the password used to decrypt the one-time token generating key from a provisioner on the CA
       # Certificate Options
       step_ca_token_subject:
         type: str
@@ -30,3 +30,17 @@ argument_specs:
         elements: str
         default: []
         description: Subject Alternate Names to add to the certificate
+      step_ca_token_cert_principal:
+        type: list
+        elements: str
+        default: []
+        description: Add the specified principals (user or host names) to the certificate
+      step_ca_token_cert_duration:
+        type: str
+        description: The time|duration when the token's validity period ends
+      step_ca_token_cert_not_before:
+        type: str
+        description: The time|duration when the certificate validity period starts
+      step_ca_token_cert_not_after:
+        type: str
+        description: The time|duration when the certificate validity period ends

@@ -22,7 +22,7 @@ options:
     desscription: Configures a SSH server instead of a client.
     type: bool
   roots:
-    desscription: Prints the public keys used to verify user or host certificates.
+    desscription: Downloads the public keys used to verify user or host certificates.
     type: bool
   ca_url:
     description: URI of the targeted Step Certificate Authority

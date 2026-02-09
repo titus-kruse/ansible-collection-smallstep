@@ -1,2 +1,4 @@
 ---
 step_ssh_principal_users: []
+
+step_ssh_principal_directory: /etc/ssh/auth_principals

@@ -10,12 +10,12 @@
 
 - name: Ensure auth principals directory exists
   ansible.builtin.file:
-    path: /etc/ssh/auth_principals
+    path: "{{ step_ssh_principal_directory }}"
     state: directory
 
 - name: Configure auth principals users
   ansible.builtin.template:
-    dest: "{{ ['/etc/ssh/auth_principals', item.user] | path_join }}"
+    dest: "{{ [step_ssh_principal_directory, item.user] | path_join }}"
     src: sshd-authorized-principals-user.j2
     mode: u=rw,g=r,o=r
   loop: "{{ step_ssh_principal_users }}"
@@ -25,7 +25,7 @@
 
 - name: Remove auth principals users
   ansible.builtin.file:
-    path: "{{ ['/etc/ssh/auth_principals', item.user] | path_join }}"
+    path: "{{ [step_ssh_principal_directory, item.user] | path_join }}"
     state: absent
   loop: "{{ step_ssh_principal_users }}"
   when: item.state | d('present') == 'absent'

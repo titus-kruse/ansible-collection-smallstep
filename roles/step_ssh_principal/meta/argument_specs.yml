@@ -1,0 +1,22 @@
+argument_specs:
+  main:
+    short_description: Configures ssh host principals
+    options:
+      step_ssh_principal_users:
+        type: list
+        default: []
+        description: List of dicts for users
+        options:
+          user:
+            type: str
+            required: yes
+            description: Username of local user
+          principals:
+            type: list
+            elements: str
+            default: []
+            description: Configure the specified principals for a user
+      step_ssh_principal_directory:
+        type: path
+        default: /etc/ssh/auth_principals
+        description: Directory path to store principal files

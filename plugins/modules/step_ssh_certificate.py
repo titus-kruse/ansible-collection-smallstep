@@ -166,9 +166,10 @@ options:
   state:
     description: >
         State that the certificate should be in.
-        If I(state=present), the certificate will be (re-)issued if it doesn't exist, is invalid/expired or if its SAN/private key parameters change.
+        #If I(state=present), the certificate will be (re-)issued if it doesn't exist, is invalid/expired or if its SAN/private key parameters change.
+        If I(state=present), the certificate will be (re-)issued if it doesn't exist, is invalid/expired.
         If I(state=revoked), the certificate will be revoked with the CA
-        If I(state=absent), the certificate will be removed from the host (and optionally revoked with the CA beforehand, see I(revoke_on_delete).
+        If I(state=absent), the certificate will be removed from the user/host (and optionally revoked with the CA beforehand, see I(revoke_on_delete).
     type: str
     choices:
       - present
@@ -244,6 +245,25 @@ def create_certificate(executable: StepCliExecutable, module: AnsibleModule) -> 
     return {"changed": True}
 
 
+def cert_needs_recreation(executable: StepCliExecutable, module: AnsibleModule) -> str:
+    """Check whether a certificate needs to be renewed/recreated
+
+    Returns:
+        str: Reason for certificate renewal/recreation, or empty string if no renewal/recreation
+          is needed
+    """
+    module_params = cast(Dict, module.params)
+
+    cert_info = helpers.get_ssh_renewal_info(
+        executable, module, module_params["crt_file"], expires_in=module_params["expires_in"])
+
+    # certificate is invalid
+    if not cert_info.valid:
+        return cert_info.invalid_reason
+
+    # TODO: Check certificate info for any recreate reason
+
+
 def revoke_certificate(executable: StepCliExecutable, module: AnsibleModule) -> Dict[str, Any]:  # pylint: disable=unused-argument
     module_params = cast(Dict, module.params)
     revoke_cliarg_map = {
@@ -274,16 +294,16 @@ def delete_certificate(executable: StepCliExecutable, module: AnsibleModule, rev
 
     param_key_file = Path(module_params["key_file"])
 
-    if not param_key_file.suffix == ".pub":
+    if not module_params["sign"]:
         key_file = param_key_file
         pub_file = key_file + ".pub"
-        cert_file = key_file + "-cert.pub"
+        crt_file = key_file + "-cert.pub"
     else:
         key_file = os.path.splitext(param_key_file)[0]
         pub_file = key_file + ".pub"
-        cert_file = key_file + "-cert.pub"
+        crt_file = key_file + "-cert.pub"
 
-    for file in [key_file, pub_file, cert_file]:
+    for file in [key_file, pub_file, crt_file]:
         if file.exists():
             try:
                 file.unlink()
@@ -355,12 +375,36 @@ def run_module():
 
     executable = StepCliExecutable(module, module_params["step_cli_executable"])
 
-    # TODO: Handle already existing files as in module 'step_ca_certificate.py'
+    param_key_file = Path(module_params["key_file"])
+
+    if not module_params["sign"]:
+        key_file = param_key_file
+        pub_file = key_file.with_suffix(".pub")
+        crt_file = Path(key_file.stem + "-cert").with_suffix(".pub")
+    else:
+        key_file = os.path.splitext(param_key_file)[0]
+        pub_file = key_file + ".pub"
+        crt_file = key_file + "-cert.pub"
+
+    crt_exists = Path(crt_file).exists()
     if module_params["state"] == "present":
-        result.update(create_certificate(executable, module))
+        if not crt_exists:
+            result.update(create_certificate(executable, module))
+        else:
+            if module_params["force"]:
+                recreate_reason = "force parameter enabled"
+            else:
+                recreate_reason = cert_needs_recreation(executable, module)
+            if recreate_reason:
+                result["recreate_reason"] = recreate_reason
+                result.update(create_certificate(executable, module, force=True))
+    #elif module_params["state"] == "renewed": TODO: Renewal of ssh host certificate
     elif module_params["state"] == "revoked":
-        result.update(revoke_certificate(executable, module))
-    elif module_params["state"] == "absent":
+        if crt_exists:
+            result.update(revoke_certificate(executable, module))
+        else:
+            module.fail_json("Cannot revoke certificate as it does not exist")
+    elif module_params["state"] == "absent" and crt_exists:
         result.update(delete_certificate(executable, module, module_params["revoke_on_delete"]))
 
     module.exit_json(**result)

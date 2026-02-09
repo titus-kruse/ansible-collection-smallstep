@@ -1,6 +1,6 @@
 argument_specs:
   main:
-    short_description: Main entrypoint
+    short_description: Download and validate the root certificate
     options:
       step_cli_executable:
         type: path

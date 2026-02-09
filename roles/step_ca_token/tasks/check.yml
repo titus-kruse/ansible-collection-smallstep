@@ -2,14 +2,14 @@
 - name: Verify that required parameters are set
   assert:
     that:
-      - step_cert_ca_provisioner_name is defined
-      - step_cert_ca_provisioner_name | length > 0
+      - step_ca_token_provisioner is defined
+      - step_ca_token_provisioner | length > 0
   when: ansible_version.string is version('2.11.1', '<')
 
 - name: Verify that required parameters are set
   assert:
-    that: step_cert_ca_jwk_password is defined or step_cert_ca_jwk_password_file is defined
-    fail_msg: "Either step_cert_ca_jwk_password or step_cert_ca_jwk_password_file has to be defined."
+    that: step_ca_token_provisioner_password is defined or step_ca_token_provisioner_password_file is defined
+    fail_msg: "Either step_ca_token_provisioner_password or step_ca_token_provisioner_password_file has to be defined."
 
 - name: Look for step_cli_executable # noqa command-instead-of-shell
   #"command" is a shell builtin, hence the need for the shell module

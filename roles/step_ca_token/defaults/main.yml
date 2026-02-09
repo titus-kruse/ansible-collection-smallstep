@@ -3,8 +3,15 @@ step_cli_executable: step-cli
 step_cli_steppath: /root/.step
 
 # Required parameters - role will error if either is not provided
-#step_cert_ca_provisioner_name:
-#step_cert_ca_jwk_password:
-#step_cert_ca_jwk_password_file:
+#step_ca_token_provisioner:
+#step_ca_token_provisioner_password:
+#step_ca_token_provisioner_password_file:
+
 step_ca_token_subject: "{{ ansible_fqdn }}"
 step_ca_token_san: []
+step_ca_token_principal: []
+step_ca_token_host: no
+step_ca_token_force: no
+#step_ca_token_duration:
+#step_ca_token_cert_not_before:
+#step_ca_token_cert_not_after:

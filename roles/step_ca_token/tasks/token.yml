@@ -1,31 +1,37 @@
 ---
-- name: JWK Certificate Creation (Block)
+- name: Token Creation (Block)
   block:
 
-    - name: Create temporary file for JWK password
+    - name: Create temporary file for provisioner password
       ansible.builtin.tempfile:
         state: file
-        suffix: jwk
-      register: _jwk_password_file
+        suffix: pw
+      register: _provisioner_password_file
       when:
-        - step_cert_ca_jwk_password is defined
-        - step_cert_ca_jwk_password | length > 0
+        - step_ca_token_provisioner_password is defined
+        - step_ca_token_provisioner_password | length > 0
 
-    - name: Deploy JWK provisioner password to temporary file
+    - name: Deploy provisioner password to temporary file
       copy:
-        dest: "{{ _jwk_password_file.path }}"
-        content: "{{ step_cert_ca_jwk_password }}"
+        dest: "{{ _provisioner_password_file.path }}"
+        content: "{{ step_ca_token_provisioner_password }}"
         mode: 0600
       no_log: true
       when:
-        - _jwk_password_file.path is defined
+        - _provisioner_password_file.path is defined
 
-    - name: Generate JWK certificate token
+    - name: Generate token
       maxhoesel.smallstep.step_ca_token:
         subject: "{{ step_ca_token_subject }}"
         san: "{{ step_ca_token_san }}"
-        provisioner: "{{ step_cert_ca_provisioner_name }}"
-        provisioner_password_file: "{{ _jwk_password_file.path | d(step_cert_ca_jwk_password_file) | mandatory }}"
+        principal: "{{ step_ca_token_principal }}"
+        host: "{{ step_ca_token_host }}"
+        force: "{{ step_ca_token_force }}"
+        not_after: "{{ step_ca_token_duration | d(omit) }}"
+        cert_not_before: "{{ step_ca_token_cert_not_before | d(omit) }}"
+        cert_not_after: "{{ step_ca_token_cert_not_after | d(omit) }}"
+        provisioner: "{{ step_ca_token_provisioner }}"
+        provisioner_password_file: "{{ _provisioner_password_file.path | d(step_ca_token_provisioner_password_file) | mandatory }}"
         return_token: true
         step_cli_executable: "{{ step_cli_executable }}"
       environment:
@@ -33,8 +39,8 @@
       register: step_ca_token_result
 
   always:
-    - name: Remove temporary JWK password file
+    - name: Remove temporary provisioner password file
       ansible.builtin.file:
-        path: "{{ _jwk_password_file.path }}"
+        path: "{{ _provisioner_password_file.path }}"
         state: absent
-      when: _jwk_password_file.path is defined
+      when: _provisioner_password_file.path is defined
