@@ -223,11 +223,10 @@ CERTINFO_KEYINFO_KEY = {
 }
 
 
-def create_certificate(executable: StepCliExecutable, module: AnsibleModule) -> Dict[str, Any]:
+def create_certificate(executable: StepCliExecutable, module: AnsibleModule, force: bool = False) -> Dict[str, Any]:
     module_params = cast(Dict, module.params)
-    result = {}
     # step ca certificate arguments
-    cert_cliargs = ["comment", "console", "curve", "force", "host", "host_id", "insecure",
+    cert_cliargs = ["comment", "console", "curve", "host", "host_id", "insecure",
                     "k8ssa_token_path", "kms", "kty", "nebula_cert", "nebula_key", "no_password", "not_after",
                     "not_before", "password_file", "principal", "private_key", "provisioner", "provisioner_password_file", "set",
                     "set_file", "sign", "size","token", "x5c_cert", "x5c_key"]
@@ -235,6 +234,9 @@ def create_certificate(executable: StepCliExecutable, module: AnsibleModule) -> 
     cert_cliarg_map = {arg: f"--{arg.replace('_', '-')}" for arg in cert_cliargs}
 
     args = ["ssh", "certificate", module_params["key_id"], module_params["key_file"]]
+    if force:
+        args.append("--force")
+
     # Never add key to ssh agent with Ansible
     args.append("--no-agent")
 
@@ -255,7 +257,9 @@ def cert_needs_recreation(executable: StepCliExecutable, module: AnsibleModule) 
     module_params = cast(Dict, module.params)
 
     cert_info = helpers.get_ssh_renewal_info(
-        executable, module, module_params["crt_file"], expires_in=module_params["expires_in"])
+        #executable, module, module_params["crt_file"], expires_in=module_params["expires_in"]
+        executable, module, module_params["crt_file"]
+    )
 
     # certificate is invalid
     if not cert_info.valid:
