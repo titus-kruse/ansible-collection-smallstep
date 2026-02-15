@@ -14,7 +14,9 @@
     owner: root
     group: root
     mode: 0644
-  notify: restart ssh renewal service
+  notify:
+    - reload systemd config
+    - restart ssh renewal service
 
 - name: Configure certificate renewal timer
   template:
@@ -23,11 +25,12 @@
     owner: root
     group: root
     mode: 0644
-  notify: restart ssh renewal service
+  notify:
+    - reload systemd config
+    - restart ssh renewal service
 
 - name: Ensure certificate renewal service is enabled and running
   systemd:
-    daemon_reload: yes
     name: "{{ step_ssh_cert_renewal_service }}.timer"
     state: started
     enabled: yes

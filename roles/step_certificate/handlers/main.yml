@@ -1,4 +1,10 @@
+---
+- name: reload systemd config
+  ansible.builtin.service:
+    daemon_reload: true
+  when: not ansible_check_mode
 - name: restart renewal service
-  service:
+  ansible.builtin.service:
     name: '{{ step_cert_renewal_service }}'
     state: restarted
+  when: not ansible_check_mode

@@ -1,8 +1,15 @@
 ---
+- name: reload systemd config
+  ansible.builtin.service:
+    daemon_reload: true
+  when: not ansible_check_mode
 - name: restart sshd
-  ansible.builtin.service: name=sshd state=restarted
+  ansible.builtin.service:
+    name: sshd
+    state: restarted
   when: not ansible_check_mode
 - name: restart ssh renewal service
-  service:
+  ansible.builtin.service:
     name: '{{ step_ssh_cert_renewal_service }}'
     state: restarted
+  when: not ansible_check_mode
