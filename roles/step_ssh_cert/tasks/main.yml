@@ -7,30 +7,30 @@
 
 - name: Look for existing private key
   ansible.builtin.stat:
-    path: "{{ step_ssh_cert_keyfile_private }}"
+    path: "{{ step_ssh_cert_keyfile }}"
   register: _step_ssh_key_private_stat
 
 - name: Look for existing public key
   ansible.builtin.stat:
-    path: "{{ step_ssh_cert_keyfile_public }}"
+    path: "{{ step_ssh_cert_pubfile }}"
   register: _step_ssh_key_public_stat
 
 - name: Look for existing certificate
   ansible.builtin.stat:
-    path: "{{ step_ssh_cert_certificate }}"
+    path: "{{ step_ssh_cert_certfile }}"
   register: _step_ssh_cert_stat
 
-- name: Assert SSH private key not exists if neither signing nor force enabled
-  when: not _step_ssh_cert_stat.stat.exists and not step_ssh_cert_sign and not step_ssh_cert_force
-  assert:
-    that: not _step_ssh_key_private_stat.stat.exists
-    fail_msg: "SSH key {{ step_ssh_cert_keyfile_private }} already exists. Enable signing to use it."
+- name: Set vars for key signing
+  when: not _step_ssh_key_private_stat.stat.exists
+  ansible.builtin.set_fact:
+    _step_ssh_cert_keyfile: "{{ step_ssh_cert_keyfile }}"
+    _step_ssh_cert_sign: false
 
-- name: SSH public key should exists if signing enabled
-  when: not _step_ssh_cert_stat.stat.exists and step_ssh_cert_sign
-  assert:
-    that: _step_ssh_key_public_stat.stat.exists
-    fail_msg: "SSH key {{ step_ssh_cert_keyfile_public }} not exists. Cannot sign certificate."
+- name: Set vars for key signing
+  when: _step_ssh_key_private_stat.stat.exists
+  ansible.builtin.set_fact:
+    _step_ssh_cert_keyfile: "{{ step_ssh_cert_pubfile }}"
+    _step_ssh_cert_sign: true
 
 - ansible.builtin.include_tasks: cert.yml
   when: step_ssh_cert_force | bool or not _step_ssh_cert_stat.stat.exists

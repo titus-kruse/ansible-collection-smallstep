@@ -1,6 +1,8 @@
 # maxhoesel.smallstep.step_ssh_cert
 
-Sign a SSH certificate using the SSH CA.
+Generate SSH key pair and sign it using the SSH CA.
+
+The role checks if the SSH key pair already exists. If exists, it will be signed.
 
 This role uses `step-cli` to generate tokens by configured CA.
 
@@ -37,8 +39,8 @@ This role uses `step-cli` to generate tokens by configured CA.
 - Example: `bob`
 
 ##### `step_ssh_cert_keyfile`
-- The private key name when generating a new key pair, or the public key path when we are just signing it.
-- Example: `id_ecdsa`
+- The private key file path name of a new or already existing key pair. In oposite to the key-file parameter of the original step command, `step_ssh_cert_keyfile` speficies the private key even if signing a key pair. Not the public key.
+- Example: `~/.ssh/id_ecdsa`
 
 ##### `step_ssh_cert_ca_provisioner`
 - Name of the provisioner on the CA that will issue the certificate
@@ -51,7 +53,7 @@ This role uses `step-cli` to generate tokens by configured CA.
 ## Example Playbooks
 
 ```yaml
-# This will issue a SSH host certificate to sign an existing host key
+# This will issue a SSH host certificate
 - hosts: server
   tasks:
     ansible.builtin.include_role:
@@ -61,12 +63,11 @@ This role uses `step-cli` to generate tokens by configured CA.
       step_ssh_cert_ca_provisioner: "jwk"
       step_ssh_cert_ca_provisioner_password: "secret"
       step_ssh_cert_keyid: "server.example.com"
-      step_ssh_cert_keyfile: "/etc/ssh/ssh_host_ecdsa_key.pub"
-      step_ssh_cert_sign: yes
+      step_ssh_cert_keyfile: "/etc/ssh/ssh_host_ecdsa_key"
 ```
 
 ```yaml
-# This will generate a key pair and issue a SSH user certificate
+# This will issue a SSH user certificate
 - hosts: client
   tasks:
     ansible.builtin.include_role:
@@ -76,8 +77,7 @@ This role uses `step-cli` to generate tokens by configured CA.
       step_ssh_cert_ca_provisioner: "jwk"
       step_ssh_cert_ca_provisioner_password: "secret"
       step_ssh_cert_keyid: "bob@client.example.com"
-      step_ssh_cert_keyfile: "id_ecdsa"
-      step_ssh_cert_sign: no
+      step_ssh_cert_keyfile: "~/.ssh/id_ecdsa"
       step_ssh_cert_no_password: yes
       step_ssh_cert_insecure: yes
       step_ssh_cert_user: "bob"

@@ -7,7 +7,7 @@ DOCUMENTATION = r"""
 ---
 module: step_ssh_certificate
 author: Titus Kruse <mail@tituskruse.de>
-short_description: Sign a SSH certificate using the SSH CA
+short_description: Create SSH key pair and sign it using the SSH CA
 version_added: '0.25.0'
 description: >
     Creates, updates, revokes or deletes a SSH key pair and creates a certificate. on the target system.
@@ -381,6 +381,7 @@ def run_module():
 
     param_key_file = Path(module_params["key_file"])
 
+    # Resolve file path names if 3 related files
     if not module_params["sign"]:
         key_file = param_key_file
         pub_file = key_file.with_suffix(".pub")
@@ -390,15 +391,21 @@ def run_module():
         pub_file = key_file + ".pub"
         crt_file = key_file + "-cert.pub"
 
+    # Check existence of cert
     crt_exists = Path(crt_file).exists()
+
+    # Switch according to targat state parameter
     if module_params["state"] == "present":
         if not crt_exists:
+            # Create key pair and certificate
             result.update(create_certificate(executable, module))
         else:
+            # Check for reason to recreate (overwrite) existing certificate
             if module_params["force"]:
                 recreate_reason = "force parameter enabled"
             else:
                 recreate_reason = cert_needs_recreation(executable, module)
+            # Do recreate certificate
             if recreate_reason:
                 result["recreate_reason"] = recreate_reason
                 result.update(create_certificate(executable, module, force=True))

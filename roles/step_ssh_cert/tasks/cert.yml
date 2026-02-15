@@ -38,21 +38,6 @@
       no_log: true
       when: _key_password_file.path is defined
 
-    - debug:
-        var: "{{ item }}"
-        verbosity: 1
-      loop:
-        - step_ssh_cert_host
-        - step_ssh_cert_user
-        - step_ssh_cert_keyid
-        - step_ssh_cert_keyfile
-        - step_ssh_cert_sign
-        - step_ssh_cert_principal
-        - step_ssh_cert_ca_provisioner
-        #- step_ssh_cert_ca_provisioner_password
-        - step_ssh_cert_ca_provisioner_password_file
-        - step_ssh_cert_steppath
-
     - name: Generate provisioner certificate token
       maxhoesel.smallstep.step_ca_token:
         ssh: true

@@ -9,7 +9,6 @@ step_ssh_cert_steppath: "{{ ansible_env.HOME }}/.step"
 #step_ssh_cert_ca_provisioner:
 
 step_ssh_cert_host: no
-step_ssh_cert_sign: no
 step_ssh_cert_force: no
 step_ssh_cert_insecure: no
 step_ssh_cert_no_password: no

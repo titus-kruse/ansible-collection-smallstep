@@ -40,10 +40,6 @@ argument_specs:
         type: str
         required: yes
         description: The private key name when generating a new key pair, or the public key path when we are just signing it.
-      step_ssh_cert_sign:
-        type: bool
-        default: no
-        description: Sign the public key passed as an argument instead of creating one.
       step_ssh_cert_force:
         type: bool
         default: no

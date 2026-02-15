@@ -1,13 +1,5 @@
 ---
-- name: Derive file names from key-file for creating key pair
+- name: Derive file names from key file
   set_fact:
-    step_ssh_cert_keyfile_private: "{{ step_ssh_cert_keyfile }}"
-    step_ssh_cert_keyfile_public: "{{ step_ssh_cert_keyfile }}.pub"
-    step_ssh_cert_certificate: "{{ step_ssh_cert_keyfile }}-cert.pub"
-  when: not step_ssh_cert_sign
-- name: Derive file names from key-file for signing public key
-  set_fact:
-    step_ssh_cert_keyfile_private: "{{ (step_ssh_cert_keyfile | splitext)[0] }}"
-    step_ssh_cert_keyfile_public: "{{ step_ssh_cert_keyfile }}"
-    step_ssh_cert_certificate: "{{ (step_ssh_cert_keyfile | splitext)[0] }}-cert.pub"
-  when: step_ssh_cert_sign
+    step_ssh_cert_pubfile: "{{ step_ssh_cert_keyfile + '.pub' }}"
+    step_ssh_cert_certfile: "{{ step_ssh_cert_keyfile + '-cert.pub' }}"

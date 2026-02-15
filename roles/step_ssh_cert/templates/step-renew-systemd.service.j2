@@ -10,8 +10,8 @@ Type=oneshot
 User=root
 
 Environment=STEPPATH={{ step_ssh_cert_steppath }} \
-            CERT_LOCATION={{ step_ssh_cert_certificate }} \
-            KEY_LOCATION={{ step_ssh_cert_keyfile_private }}
+            CERT_LOCATION={{ step_ssh_cert_certfile }} \
+            KEY_LOCATION={{ step_ssh_cert_keyfile }}
 
 ; ExecCondition checks if the certificate is ready for renewal,
 ; based on the exit status of the command.
