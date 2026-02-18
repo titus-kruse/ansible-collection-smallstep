@@ -61,7 +61,7 @@ argument_specs:
         type: str
         description: Valid duration of the certificate
       # Renewal Options
-      step_ssh_cert_renewal_service:
+      step_ssh_cert_renewal_service_name:
         type: str
         default: step-renew-ssh
         description: Name of the `systemd` service that will handle certificate renewals

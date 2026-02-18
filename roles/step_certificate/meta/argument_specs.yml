@@ -86,7 +86,7 @@ argument_specs:
             default: root
             description: Group of the key file
       # Renewal Options
-      step_cert_renewal_service:
+      step_cert_renewal_service_name:
         type: str
         default: step-renew
         description: Name of the `systemd` service that will handle certificate renewals

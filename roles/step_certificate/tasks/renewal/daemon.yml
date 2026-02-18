@@ -9,7 +9,7 @@
 - name: Configure certificate renewal service
   template:
     src: step-renew-daemon.service.j2
-    dest: "/etc/systemd/system/{{ step_cert_renewal_service }}.service"
+    dest: "/etc/systemd/system/{{ step_cert_renewal_service_name }}.service"
     owner: root
     group: root
     mode: 0644
@@ -18,6 +18,6 @@
 - name: Ensure certificate renewal service is enabled and running
   systemd:
     daemon_reload: yes
-    name: "{{ step_cert_renewal_service }}"
+    name: "{{ step_cert_renewal_service_name }}"
     state: started
     enabled: yes

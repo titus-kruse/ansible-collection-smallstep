@@ -15,7 +15,8 @@ step_ssh_cert_no_password: no
 step_ssh_cert_principal: []
 step_ssh_cert_duration: 24h
 
-step_ssh_cert_renewal_service: step-renew-ssh
+step_ssh_cert_renewal_service_name: step-renew-ssh
+step_ssh_cert_renewal_service_enabled: yes
 step_ssh_cert_renewal_service_interval: 'daily'
 #step_ssh_cert_renewal_when: 8h
 step_ssh_cert_renewal_reload_services: [ssh.service]

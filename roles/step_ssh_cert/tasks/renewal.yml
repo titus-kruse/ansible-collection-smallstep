@@ -10,27 +10,25 @@
 - name: Configure certificate renewal service
   template:
     src: step-renew-systemd.service.j2
-    dest: "/etc/systemd/system/{{ step_ssh_cert_renewal_service }}.service"
+    dest: "/etc/systemd/system/{{ step_ssh_cert_renewal_service_name }}.service"
     owner: root
     group: root
     mode: 0644
-  notify:
-    - reload systemd config
-    - restart ssh renewal service
+  register: _step_ssh_renewal_service_register_systemd_service
+  notify: restart ssh renewal timer
 
 - name: Configure certificate renewal timer
   template:
     src: step-renew-systemd.timer.j2
-    dest: "/etc/systemd/system/{{ step_ssh_cert_renewal_service }}.timer"
+    dest: "/etc/systemd/system/{{ step_ssh_cert_renewal_service_name }}.timer"
     owner: root
     group: root
     mode: 0644
-  notify:
-    - reload systemd config
-    - restart ssh renewal service
+  register: _step_ssh_renewal_service_register_systemd_timer
+  notify: restart ssh renewal timer
 
-- name: Ensure certificate renewal service is enabled and running
+- name: Ensure certificate renewal service is enabled={{ step_ssh_cert_renewal_service_enabled }}
   systemd:
-    name: "{{ step_ssh_cert_renewal_service }}.timer"
+    name: "{{ step_ssh_cert_renewal_service_name }}.timer"
     state: started
-    enabled: yes
+    enabled: "{{ step_ssh_cert_renewal_service_enabled }}"
