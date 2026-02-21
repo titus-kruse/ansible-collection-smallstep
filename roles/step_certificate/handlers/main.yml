@@ -1,4 +1,11 @@
 ---
+# Certificate renewal with step-cli deamon
+- name: restart renewal service
+  service:
+    name: "{{ step_cert_renewal_service_name }}.service"
+    state: restarted
+
+# Certificate renewal with systemd timer
 - name: restart step_cert_renewal timer
   ansible.builtin.systemd:
     name: '{{ step_cert_renewal_service_name }}.timer'
