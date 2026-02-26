@@ -1,15 +1,10 @@
 ---
-# Certificate renewal with step-cli deamon
 - name: restart renewal service
   service:
-    name: "{{ step_cert_renewal_service_name }}.service"
+    name: '{{ step_cert_renewal_service }}'
     state: restarted
 
-# Certificate renewal with systemd timer
-- name: restart step_cert_renewal timer
-  ansible.builtin.systemd:
-    name: '{{ step_cert_renewal_service_name }}.timer'
-    state: restarted
-    daemon_reload: "{{ (_step_cert_renewal_service_register_systemd_timer.changed | default(False)) or
-                       (_step_cert_renewal_service_register_systemd_service.changed | default(False)) }}"
-  when: not ansible_check_mode
+- name: reload affected services
+  command: systemctl try-reload-or-restart {{ step_cert_renewal_reload_services | join(' ') }}
+  when: step_cert_renewal_reload_services | length > 0
+  ignore_errors: true

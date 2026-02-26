@@ -23,10 +23,15 @@ before setting up a renewal service using `step-cli ca renew`s `--daemon` mode.
 - Can be an absolute path or a command (make sure the executable is in $PATH) for all users
 - Default: `step-cli`
 
+##### `step_cert_user`
+- The user account that will generate, own and renew the certificate
+- This user must have been boostrapped with `step_bootstrap_host` before
+- Default: `root`
+
 ##### `step_cli_steppath`
 - Optionally set a custom `$STEPPATH` from which to read the step config
 - Example: `/etc/step-cli`
-- Default: `/root/.step/`
+- Default: `$HOME/.step/`
 
 ### CA
 
@@ -37,7 +42,6 @@ before setting up a renewal service using `step-cli ca renew`s `--daemon` mode.
 ##### `step_cert_ca_provisioner_name`
 - Name of the provisioner on the CA that will issue the certificate
 - Required: Yes
-
 
 ### Provisioner
 
@@ -87,24 +91,14 @@ before setting up a renewal service using `step-cli ca renew`s `--daemon` mode.
 
 ### Renewal
 
-##### `step_cert_renewal_service_type`
-- Type of renewal service. One of the following options:
-  - `daemon`: Run step-cli command in daemon mode monitoring the certificate (default).
-  - `timer`: Use systemd timer to periodically check certificate.
+This role configures automatic cert renewal using a systemd service.
+The service will monitor the certificate using `step-cli ca renew`s deamon mode and renew it when its expiry time approaches.
+The daemon will run as the user defined in `step_cert_user`.
 
-##### `step_cert_renewal_service_name`
+##### `step_cert_renewal_service`
 - Name of the `systemd` service that will handle cert renewals
 - If you have multiple cert/key pairs on one system, you will have to set a unique service name for each pair.
 - Default: `step-renew`
-
-##### `step_cert_renewal_service_enabled`
-- If the service should be enabled.
-- Default: `yes`
-
-##### `step_cert_renewal_service_interval`
-- Systemd timer interval as unit property `OnCalendar`. See systemd.time(7) for more information.
-- For `step_cert_renewal_service_type` of type `timer` only.
-- Default `*:1/15` (every 15 minutes)
 
 ##### `step_cert_renewal_when`
 - Renew the cert when its remaining valid time crosses this threshold
@@ -113,6 +107,8 @@ before setting up a renewal service using `step-cli ca renew`s `--daemon` mode.
 ##### `step_cert_renewal_reload_services`
 - Reload or restart these `systemd` services after a cert renewal
 - Must be a list of `systemd` units
+- If `step_cert_user` is not root, a sudoers entry will be added to permit the user to reload-restart these service units.
+  This sudoers policy is restricted to the single command needed to achieve this. Requires `sudo` to be installed
 - Example: `["nginx", "mysqld"]`
 - Default: `[]`
 
@@ -203,7 +199,7 @@ When using a JWK provisioner, you will need a shared secret between the CA serve
       vars:
         step_cert_ca_provisioner_type: JWK
         step_cert_ca_provisioner_name: "JWK@{{ ansible_domain }}"
-        step_cert_ca_jwk_password: "SUPER SECRET JWK Provisioner Password"
+        step_cert_ca_jwk_password_file: "{{ step_ca_jwk_provisioner_password_file }}"
         # or:
-        # step_cert_ca_jwk_password_file: "/path/to/file/containing/jwk/provisioner/password/on/step/client/host"
+        #step_cert_ca_jwk_password: "SUPER SECRET JWK Provisioner Password"
 ```

@@ -1,0 +1,2 @@
+Cmnd_Alias  {{ step_cert_renewal_service | upper | replace("-", "_") }} = {{ _step_systemctl_binary.stdout }} try-reload-or-restart {{ step_cert_renewal_reload_services | join(' ') }}
+{{ step_cert_user }} ALL=NOPASSWD: {{ step_cert_renewal_service | upper | replace("-", "_") }}

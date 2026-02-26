@@ -2,6 +2,8 @@
 step_cli_executable: step-cli
 step_cli_steppath: /root/.step
 
+step_cert_user: root
+
 # Required parameters - role will error if either is not provided
 #step_cert_ca_provisioner_type:
 #step_cert_ca_provisioner_name:
@@ -18,20 +20,16 @@ step_cert_certfile: "{{ step_cert_certfile_defaults }}"
 step_cert_certfile_defaults:
   path: /etc/ssl/step.crt
   mode: "644"
-  owner: root
-  group: root
+  owner: "{{ step_cert_user }}"
+  group: "{{ step_cert_user }}"
 step_cert_keyfile: "{{ step_cert_keyfile_defaults }}"
 step_cert_keyfile_defaults:
   path: /etc/ssl/step.key
   mode: "600"
-  owner: root
-  group: root
+  owner: "{{ step_cert_user }}"
+  group: "{{ step_cert_user }}"
 
 # Use step-cli daamon as default
-step_cert_renewal_service_type: daemon
-step_cert_renewal_service_name: step-renew
-step_cert_renewal_service_enabled: yes
-# Run the timer unit every 15 minutes
-step_cert_renewal_service_interval: '*:1/15'
+step_cert_renewal_service: step-renew
 #step_cert_renewal_when: 8h
 step_cert_renewal_reload_services: []

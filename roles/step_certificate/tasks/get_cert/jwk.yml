@@ -43,6 +43,7 @@
         force: yes  # stupid, but required flag to allow overwriting existing files
         step_cli_executable: "{{ step_cli_executable }}"
       become: yes
+      become_user: "{{ step_cert_user }}"
       environment:
         STEPPATH: "{{ step_cli_steppath }}"
       register: _step_certificate
