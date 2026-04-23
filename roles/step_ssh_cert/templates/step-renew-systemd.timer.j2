@@ -7,7 +7,7 @@ PartOf=cert-renewer.target
 Persistent=true
 
 ; Calendar event expressions. See systemd.time(7) for more information.
-OnCalendar={{ step_cert_renewal_service_interval }}
+OnCalendar={{ step_ssh_cert_renewal_service_interval }}
 
 ; Always run the timer on time.
 AccuracySec=1us
