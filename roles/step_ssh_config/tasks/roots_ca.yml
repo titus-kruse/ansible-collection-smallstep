@@ -28,7 +28,7 @@
   become_user: "{{ step_ssh_config_user }}"
   when:
     - step_ssh_config_roots | bool
-    - _step_ssh_config.roots is defined
+    - _step_ssh_config.roots is defined and _step_ssh_config.roots | length > 0
 
 - name: Add CA public key to SSHd service configuration
   ansible.builtin.template:
@@ -40,4 +40,4 @@
     - restart sshd
   when:
     - step_ssh_config_roots | bool
-    - _step_ssh_config.roots is defined
+    - _step_ssh_config.roots is defined and _step_ssh_config.roots | length > 0
