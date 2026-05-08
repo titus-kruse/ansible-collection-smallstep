@@ -27,7 +27,7 @@ This role is more a SSHd configuration helper role instead of a wrapper for step
 
 ##### `user`
 - Username of local user
-- Required: yes
+- Required: true
 
 ##### `principals`
 - List of principals for the user

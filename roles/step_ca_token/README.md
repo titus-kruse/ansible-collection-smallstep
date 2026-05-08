@@ -10,7 +10,7 @@ This role uses `step-cli` to generate tokens by configured CA.
   - Ubuntu 18.04 LTS or newer
   - Debian 10 or newer
   - CentOS 8 or newer
-- This role requires root access. Make sure to run this role with `become: yes` or equivalent
+- This role requires root access. Make sure to run this role with `become: true` or equivalent
 - The host should be bootstrapped with `step_bootstrap_host` and the root user must be able to access the CA.
 
 ## Role Variables

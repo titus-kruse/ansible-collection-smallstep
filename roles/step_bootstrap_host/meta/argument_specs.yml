@@ -12,7 +12,7 @@ argument_specs:
       - |
         Requirements:
 
-        - Root access using C(become: yes) or equivalent
+        - Root access using C(become: true) or equivalent
       - |
         Supported distributions:
 
@@ -74,13 +74,13 @@ argument_specs:
           - This is used to verify the authenticity of the remote CA
       step_bootstrap_install_cert:
         type: bool
-        default: yes
+        default: true
         description:
           - Whether to install the CA cert into the system root trust store(s)
           - If set to false, this role only installs C(step-cli) and configures the root user to run C(step-cli) against your CA. Other applications on your system will B(not) trust the CA, as the certificate won't be in the system trust store.
       step_bootstrap_force:
         type: bool
-        default: no
+        default: false
         description:
           - Whether to force bootstrapping of the CA configuration.
           - If true, will cause an overwrite of any existing CA configuration, including root certificate.

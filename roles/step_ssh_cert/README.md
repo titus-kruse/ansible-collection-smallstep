@@ -59,7 +59,7 @@ This role uses `step-cli` to generate tokens by configured CA.
     ansible.builtin.include_role:
       name: maxhoesel.smallstep.step_ssh_cert
     vars:
-      step_ssh_cert_host: yes
+      step_ssh_cert_host: true
       step_ssh_cert_ca_provisioner: "jwk"
       step_ssh_cert_ca_provisioner_password: "secret"
       step_ssh_cert_keyid: "server.example.com"
@@ -73,12 +73,12 @@ This role uses `step-cli` to generate tokens by configured CA.
     ansible.builtin.include_role:
       name: maxhoesel.smallstep.step_ssh_cert
     vars:
-      step_ssh_cert_host: no
+      step_ssh_cert_host: false
       step_ssh_cert_ca_provisioner: "jwk"
       step_ssh_cert_ca_provisioner_password: "secret"
       step_ssh_cert_keyid: "bob@client.example.com"
       step_ssh_cert_keyfile: "~/.ssh/id_ecdsa"
-      step_ssh_cert_no_password: yes
-      step_ssh_cert_insecure: yes
+      step_ssh_cert_no_password: true
+      step_ssh_cert_insecure: true
       step_ssh_cert_user: "bob"
 ```

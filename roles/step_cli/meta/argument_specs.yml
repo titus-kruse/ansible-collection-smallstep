@@ -6,7 +6,7 @@ argument_specs:
       - |
         Requirements:
 
-        - Root access using C(become: yes) or equivalent
+        - Root access using C(become: true) or equivalent
       - |
         Supported distributions:
 

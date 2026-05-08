@@ -13,7 +13,7 @@
     password_file: "{{ _key_password_file.path is defined | ternary(_key_password_file.path, omit) }}"
     principal: "{{ step_ssh_cert_principal | d(omit) }}"
     not_after: "{{ step_ssh_cert_duration | d(omit) }}"
-    host: yes
+    host: true
     sign: "{{ _step_ssh_cert_sign }}"
     force: "{{ step_ssh_cert_force | d(omit) }}"
     no_password: "{{ step_ssh_cert_no_password | d(omit) }}"

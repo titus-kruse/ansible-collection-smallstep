@@ -51,7 +51,7 @@ options:
   crt_file:
     description: File to write the certificate (PEM format).
     type: path
-    required: yes
+    required: true
   curve:
     aliases:
       - crv
@@ -81,7 +81,7 @@ options:
   key_file:
     description: File to write the private key (PEM format).
     type: path
-    required: yes
+    required: true
   kms:
     description: The uri to configure a Cloud KMS or an HSM.
     type: str

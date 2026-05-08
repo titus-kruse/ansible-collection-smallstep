@@ -11,7 +11,7 @@ before setting up a renewal service using `step-cli ca renew`s `--daemon` mode.
   - Ubuntu 18.04 LTS or newer
   - Debian 10 or newer
   - CentOS 8 or newer
-- This role requires root access. Make sure to run this role with `become: yes` or equivalent
+- This role requires root access. Make sure to run this role with `become: true` or equivalent
 - The host must be bootstrapped with `step_bootstrap_host` and the root user must be able to access the CA.
 
 ## Role Variables
@@ -121,7 +121,7 @@ Make sure that you are familiar with the way ACME certificate generation works. 
 ```yaml
 # Configure your CA to include an ACME provisioner
 - hosts: step_ca
-  become: yes
+  become: true
   tasks:
     - name: Add an ACME provisioner to the CA
       maxhoesel.smallstep.step_ca_provisioner:
@@ -143,14 +143,14 @@ Make sure that you are familiar with the way ACME certificate generation works. 
       vars:
         step_bootstrap_ca_url: https://myca.localdomain
         step_bootstrap_fingerprint: your CAs fingerprint
-      become: yes
+      become: true
 
     # Configure an ACME provisioned cert + renewal in /etc/step
     - role: maxhoesel.smallstep.step_certificate
       vars:
         step_cert_ca_provisioner_type: ACME
         step_cert_ca_provisioner_name: ACME
-      become: yes
+      become: true
 ```
 
 ### JWK
@@ -160,7 +160,7 @@ When using a JWK provisioner, you will need a shared secret between the CA serve
 ```yaml
 # Configure your CA to include a JWK provisioner
 - hosts: step_ca
-  become: yes
+  become: true
   tasks:
     - name: step-ca | deploy CA JWK provisioner password
       copy:
@@ -192,7 +192,7 @@ When using a JWK provisioner, you will need a shared secret between the CA serve
       vars:
         step_bootstrap_ca_url: https://myca.localdomain
         step_bootstrap_fingerprint: your CAs fingerprint
-      become: yes
+      become: true
 
     # Configure a JWK provisioned cert + renewal in /etc/step
     - role: maxhoesel.smallstep.step_certificate

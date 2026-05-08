@@ -8,7 +8,7 @@ argument_specs:
         default: step-cli
       step_ca_root_certfile:
         type: dict
-        required: yes
+        required: true
         description: Details about the cert file on disk
         options:
           path:
@@ -29,7 +29,7 @@ argument_specs:
             description: Group of the file
       step_ca_root_force:
         type: bool
-        default: no
+        default: false
         description: Whether to force bootstrapping of the CA configuration.
       step_bootstrap_ca_url:
         type: str

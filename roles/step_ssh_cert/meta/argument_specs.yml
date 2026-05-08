@@ -15,12 +15,12 @@ argument_specs:
       # Type of certificate (host/user)
       step_ssh_cert_host:
         type: bool
-        default: no
+        default: false
         description: Issues a host certificate instead of a user one.
       # Provisioner Selection
       step_ssh_cert_ca_provisioner:
         type: str
-        required: yes
+        required: true
         description: Name of the provisioner on the CA that will issue the certificate
       # Provisioner options
       step_ssh_cert_ca_provisioner_password:
@@ -34,23 +34,23 @@ argument_specs:
       # Certificate and Key Options
       step_ssh_cert_keyid:
         type: str
-        required: yes
+        required: true
         description: The certificate identity. If no principals are passed key-id will be used as a principal, if it has the format abc@def then the principal will be abc.
       step_ssh_cert_keyfile:
         type: str
-        required: yes
+        required: true
         description: The private key name when generating a new key pair, or the public key path when we are just signing it.
       step_ssh_cert_force:
         type: bool
-        default: no
+        default: false
         description: Force the overwrite of files without asking.
       step_ssh_cert_insecure:
         type: bool
-        default: no
+        default: false
         description: Option no_password requires this insecure flag.
       step_ssh_cert_no_password:
         type: bool
-        default: no
+        default: false
         description: Don't use password to encrypt a private key. Sensitive key material will be written to disk unencrypted. This is not recommended. Requires --insecure flag.
       step_ssh_cert_principal:
         type: list

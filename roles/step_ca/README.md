@@ -36,7 +36,7 @@ It is thus **very** important that you **back up your root key and password** in
   - RHEL(-compatible): `9, 10` (RockyLinux is used for testing)
   - Other distributions may work as well, but are not tested
 - Supported architectures: amd64, arm64
-- This role requires root access. Make sure to run this role with `become: yes` or equivalent
+- This role requires root access. Make sure to run this role with `become: true` or equivalent
 
 ## Role Variables
 
@@ -208,7 +208,7 @@ These variables need to be set as a group
 - hosts: all
   roles:
     - role: maxhoesel.smallstep.step_ca
-      become: yes
+      become: true
       vars:
         step_ca_name: Foo Bar Private CA
         step_ca_root_password: "very secret password"

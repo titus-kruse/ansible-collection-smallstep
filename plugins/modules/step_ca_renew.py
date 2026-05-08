@@ -15,7 +15,7 @@ notes:
 options:
   crt_file:
     description: The certificate in PEM format that we want to renew.
-    required: yes
+    required: true
     type: path
   expires_in:
     description: >
@@ -33,7 +33,7 @@ options:
     type: str
   key_file:
     description: They key file of the certificate.
-    required: yes
+    required: true
     type: path
   output_file:
     description: The new certificate file path. Defaults to overwriting the crt-file positional argument.
@@ -78,7 +78,7 @@ EXAMPLES = r"""
     crt_file: internal.crt
     key_file: internal.key
     ca_url: https://ca.smallstep.com:9000
-    force: yes
+    force: true
 """
 
 from typing import Dict, cast, Any

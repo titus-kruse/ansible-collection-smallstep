@@ -40,9 +40,9 @@
         not_after: "{{ step_cert_duration | d(omit) }}"
         crt_file: "{{ step_cert_certfile_full.path }}"
         key_file: "{{ step_cert_keyfile_full.path }}"
-        force: yes  # stupid, but required flag to allow overwriting existing files
+        force: true  # stupid, but required flag to allow overwriting existing files
         step_cli_executable: "{{ step_cli_executable }}"
-      become: yes
+      become: true
       become_user: "{{ step_cert_user }}"
       environment:
         STEPPATH: "{{ step_cli_steppath }}"

@@ -13,7 +13,7 @@ This role is used by `step_bootstrap_host` and `step_ca`, but can also be used s
   - RHEL(-compatible): `9, 10` (RockyLinux is used for testing)
   - Other distributions may work as well, but are not tested
 - Supported architectures: amd64, arm64
-- This role requires root access. Make sure to run this role with `become: yes` or equivalent
+- This role requires root access. Make sure to run this role with `become: true` or equivalent
 
 ## Role Variables
 
@@ -47,13 +47,13 @@ This role is used by `step_bootstrap_host` and `step_ca`, but can also be used s
 - hosts: all
   roles:
   - role: maxhoesel.smallstep.step_cli
-    become: yes
+    become: true
 
 # Install a specific step-cli version to a custom path
 - hosts: all
   roles:
   - role: maxhoesel.smallstep.step_cli
-    become: yes
+    become: true
     vars:
       step_cli_version: "0.21.0"
       # This will install step-cli to `/opt/step-cli`

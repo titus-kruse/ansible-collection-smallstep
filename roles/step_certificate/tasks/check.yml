@@ -25,8 +25,8 @@
   register: step_cli_install
   # dash (Debian sh shell) uses 127 instead of 1 for not found errors
   failed_when: step_cli_install.rc not in [0,1,127]
-  changed_when: no
-  check_mode: no
+  changed_when: false
+  check_mode: false
 
 - name: Verify that `step-cli` is installed
   assert:

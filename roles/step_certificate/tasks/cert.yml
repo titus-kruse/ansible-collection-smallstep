@@ -4,9 +4,9 @@
 # or if the cert validity check fails.
 - name: Check if expected certificate file is valid
   command: "{{ step_cli_executable }} certificate verify {{ step_cert_certfile_full.path }}"
-  check_mode: no    # Always run, even in --check mode
-  changed_when: no
-  failed_when: no
+  check_mode: false    # Always run, even in --check mode
+  changed_when: false
+  failed_when: false
   ignore_errors: true
   register: _step_cert_check
 

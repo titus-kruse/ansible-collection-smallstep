@@ -3,7 +3,7 @@
   tasks:
     - name: Update apt
       apt:
-        update_cache: yes
+        update_cache: true
 
 - hosts: rockylinux:fedora
   tasks:
@@ -17,7 +17,7 @@
     - name: Add Test Users
       ansible.builtin.user:
         name: "{{ item }}"
-        create_home: yes
+        create_home: true
         password: "*"
       loop:
         - max

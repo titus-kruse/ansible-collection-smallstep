@@ -2,9 +2,9 @@
 # shell is required due to "command" being a shell builtin
 - name: Get absolute step command path # noqa command-instead-of-shell
   shell: "command -v {{ step_cli_executable }}"
-  become: yes
-  check_mode: no
-  changed_when: no
+  become: true
+  check_mode: false
+  changed_when: false
   register: _step_cli_executable_absolute
 
 - name: Configure certificate renewal service

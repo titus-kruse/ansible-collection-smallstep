@@ -113,13 +113,13 @@ Below are some examples to showcase the different options. These examples assume
     - name: Run a module as root to use the CA configured during bootstrapping
       maxhoesel.smallstep.step_ca_certificate:
         #params go here
-      become: yes
+      become: true
 
     - name: Run a module in offline mode
       maxhoesel.smallstep.step_ca_certificate:
-        offline: yes
+        offline: true
         # params go here
-      become: yes
+      become: true
       # You should run modules acting on a local CA as the user that the CA runs as.
       # If you configured your CA with `step_ca`, the default user name is `step-ca`.
       become_user: step-ca
@@ -128,7 +128,7 @@ Below are some examples to showcase the different options. These examples assume
       maxhoesel.smallstep.step_ca_provisioner:
         ca_config: /etc/step-ca/config/ca.json
         #params go here
-      become: yes
+      become: true
       become_user: step-ca
 ```
 
@@ -180,7 +180,7 @@ See the `step_ca` documentation for more details on how private keys are handled
 
 ```yaml
 - hosts: step_ca
-  become: yes
+  become: true
   tasks:
     # Install and initialize the CA server.
     # There are a lot of configuration options, see the step_ca README for details
@@ -213,7 +213,7 @@ To actually initialize the clients, you can use [`step_bootstrap_host`](roles/st
 
 ```yaml
 - hosts: clients
-  become: yes
+  become: true
   tasks:
     - name: Bootstrap the hosts to trust the CA
       include_role:
@@ -225,7 +225,7 @@ To actually initialize the clients, you can use [`step_bootstrap_host`](roles/st
 
     - name: Verify that everything is working
       command: step-cli ca health
-      changed_when: no
+      changed_when: false
 ```
 
 At this point, your CA is up and running and your hosts are configured to trust it. You're ready to go!

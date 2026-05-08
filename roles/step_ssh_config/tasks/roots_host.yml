@@ -10,7 +10,7 @@
     roots: "{{ step_ssh_config_roots | d(omit) }}"
     ca_url: "{{ step_bootstrap_ca_url|default(omit) }}"
     step_cli_executable: "{{ step_cli_executable }}"
-  become: yes
+  become: true
   become_user: "{{ step_ssh_config_user }}"
   environment:
     STEPPATH: "{{ step_ssh_config_steppath }}"
@@ -26,7 +26,7 @@
     mode: "{{ step_ssh_config_roots_hosts_file_full.mode }}"
     owner: "{{ step_ssh_config_roots_hosts_file_full.owner }}"
     group: "{{ step_ssh_config_roots_hosts_file_full.group }}"
-  become: yes
+  become: true
   become_user: "{{ step_ssh_config_user }}"
   when:
     - step_ssh_config_roots | bool

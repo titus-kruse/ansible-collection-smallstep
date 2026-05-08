@@ -2,7 +2,7 @@
   tasks:
     - name: Update apt
       apt:
-        update_cache: yes
+        update_cache: true
 
 - hosts: rockylinux:fedora
   tasks:
@@ -36,7 +36,7 @@
       systemd:
         name: nginx
         state: stopped
-        enabled: no
+        enabled: false
 
     - name: Get CA fingerprint # noqa: run-once[task]
       ansible.builtin.command: docker exec step-ca step certificate fingerprint certs/root_ca.crt

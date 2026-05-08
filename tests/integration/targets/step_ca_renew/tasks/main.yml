@@ -5,7 +5,7 @@
     key_file: /tmp/generated_key
     provisioner: "{{ ca_provisioner }}"
     provisioner_password_file: "{{ ca_provisioner_password_file }}"
-    force: yes
+    force: true
     not_after: 1h
 
 - name: Try to renew early
@@ -14,7 +14,7 @@
     key_file: /tmp/generated_key
     password_file: "{{ ca_provisioner_password_file }}"
     expires_in: 5m
-    force: yes
+    force: true
   register: early_renewal
 
 - name: Verify that early renew didn't change anything
@@ -26,7 +26,7 @@
     crt_file: /tmp/generated_certificate
     key_file: /tmp/generated_key
     password: "{{ ca_provisioner_password }}"
-    force: yes
+    force: true
     expires_in: 61m
   register: forced_renewal
 

@@ -10,8 +10,8 @@ step_cli_steppath: /root/.step
 step_ca_token_subject: "{{ ansible_fqdn }}"
 step_ca_token_san: []
 step_ca_token_principal: []
-step_ca_token_host: no
-step_ca_token_force: no
+step_ca_token_host: false
+step_ca_token_force: false
 #step_ca_token_duration:
 #step_ca_token_cert_not_before:
 #step_ca_token_cert_not_after:

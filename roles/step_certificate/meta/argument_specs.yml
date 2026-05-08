@@ -9,11 +9,11 @@ argument_specs:
       # Provisioner Selection
       step_cert_ca_provisioner_type:
         type: str
-        required: yes
+        required: true
         description: Type of provisioner on the CA that will issue the certificate
       step_cert_ca_provisioner_name:
         type: str
-        required: yes
+        required: true
         description: Name of the provisioner on the CA that will issue the certificate
       # Provisioner options
       step_cert_acme_webroot_path:

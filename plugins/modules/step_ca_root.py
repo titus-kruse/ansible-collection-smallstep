@@ -21,7 +21,7 @@ options:
   root_file:
     description: File to write the root certificate file (PEM format)
     type: path
-    required: yes
+    required: true
   force:
     description: Force the overwrite of files without asking.
     type: bool

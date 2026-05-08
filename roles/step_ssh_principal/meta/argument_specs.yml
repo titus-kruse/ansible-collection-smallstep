@@ -9,7 +9,7 @@ argument_specs:
         options:
           user:
             type: str
-            required: yes
+            required: true
             description: Username of local user
           principals:
             type: list

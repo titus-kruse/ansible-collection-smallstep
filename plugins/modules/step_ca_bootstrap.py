@@ -18,19 +18,19 @@ options:
   ca_url:
     description: URI of the targeted Step Certificate Authority
     type: str
-    required: yes
+    required: true
   fingerprint:
     description: The fingerprint of the targeted root certificate
     type: str
-    required: yes
+    required: true
   force:
     description: Force the overwrite of files without asking.
     type: bool
-    default: no
+    default: false
   install:
     description: Install the root certificate into the system truststore. Make sure that the user has the required privileges.
     type: bool
-    default: no
+    default: false
   redirect_url:
     description: Terminal OAuth redirect url.
     type: str
@@ -48,7 +48,7 @@ EXAMPLES = r"""
   maxhoesel.smallstep.step_ca_bootstrap:
     ca_url: https://ca.example.org
     fingerprint: d9d0978692f1c7cc791f5c343ce98771900721405e834cd27b9502cc719f5097
-    install: yes
+    install: true
 """
 
 import json

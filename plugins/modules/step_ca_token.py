@@ -51,7 +51,7 @@ options:
       When there are no additional Subject Alternative Names configured (via the I(san) parameter,
       the subject will be added as the only element of the 'sans' claim on the token.
     type: str
-    required: yes
+    required: true
   not_after:
     description: >
       The time/duration when the certificate validity period ends. If a time is used it is expected to be in RFC 3339 format.
@@ -142,7 +142,7 @@ token:
   description: The generated token.
   returned: When I(return_token) is set
   type: str
-  no_log: yes
+  no_log: true
 """
 from typing import cast, Dict, Any
 

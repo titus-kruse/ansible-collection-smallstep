@@ -10,9 +10,9 @@
     key_file: "{{ step_cert_keyfile_full.path }}"
     webroot: "{{ step_cert_acme_webroot_path }}"
     standalone: "{{ step_cert_acme_webroot_path | bool }}"
-    force: yes
+    force: true
     step_cli_executable: "{{ step_cli_executable }}"
-  become: yes
+  become: true
   become_user: "{{ step_cert_user }}"
   environment:
     STEPPATH: "{{ step_cli_steppath }}"

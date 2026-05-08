@@ -4,9 +4,9 @@
   tasks:
     - name: Verify that both users are able to access the CA
       command: "step-cli ca health"
-      become: yes
+      become: true
       become_user: "{{ item.user }}"
-      changed_when: no
+      changed_when: false
       environment:
         STEPPATH: "{{ item.steppath }}"
       loop:
@@ -22,4 +22,4 @@
         url: "{{ step_bootstrap_ca_url }}"
       failed_when: ca_query.status != 404
       register: ca_query
-      become: yes
+      become: true

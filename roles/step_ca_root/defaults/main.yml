@@ -5,7 +5,7 @@ step_cli_steppath: /root/.step
 #step_bootstrap_ca_url:
 #step_bootstrap_fingerprint:
 
-step_ca_root_force: no
+step_ca_root_force: false
 
 step_ca_root_certfile: "{{ step_ca_root_certfile_defaults }}"
 step_ca_root_certfile_defaults:

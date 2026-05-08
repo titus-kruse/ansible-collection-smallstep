@@ -13,8 +13,8 @@
 
 - name: Check if certificate is valid
   command: "step-cli certificate verify {{ step_ca_root_certfile_full.path }}"
-  changed_when: no
-  check_mode: no
+  changed_when: false
+  check_mode: false
   ignore_errors: true
   register: _step_ca_root_validity
   when: step_ca_root_current_cert.stat.exists

@@ -14,6 +14,6 @@
 
     - name: Test step ca health
       command: step-cli ca health
-      become: yes
+      become: true
       become_user: "{{ step_ca_user }}"
-      changed_when: no
+      changed_when: false

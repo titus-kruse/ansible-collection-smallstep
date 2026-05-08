@@ -5,4 +5,4 @@
   tasks:
     - name: Verify that step-cli is installed
       command: "{{ step_cli_executable }} version"
-      changed_when: no
+      changed_when: false

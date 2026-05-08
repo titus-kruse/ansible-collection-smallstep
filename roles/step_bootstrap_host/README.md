@@ -16,7 +16,7 @@ It will:
   - Fedora: `42`
   - RHEL(-compatible): `9, 10` (RockyLinux is used for testing)
   - Other distributions may work as well, but are not tested
-- This role requires root access. Make sure to run this role with `become: yes` or equivalent
+- This role requires root access. Make sure to run this role with `become: true` or equivalent
 - `step-cli` will be automatically installed, if not already present
 
 ## Role Variables
@@ -107,5 +107,5 @@ See the [step-cli role docs](/roles/step_cli/README.md) for more details on the 
       vars:
         step_bootstrap_ca_url: https://myca.localdomain
         step_bootstrap_fingerprint: 6e1419b2a5086e961dc503cb2994f479968ed10b73c973705ed8a2d12a337b99
-      become: yes
+      become: true
 ```

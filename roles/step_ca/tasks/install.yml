@@ -9,8 +9,8 @@
     {{ step_ca_executable }} version | cut -d' ' -f 2 | cut -d'/' -f 2 | head -n 1
   args:
     executable: /bin/bash
-  changed_when: no
-  check_mode: no
+  changed_when: false
+  check_mode: false
   register: step_ca_installed_version
   when: step_ca_present.stat.exists
 
@@ -25,7 +25,7 @@
       unarchive:
         src: "https://github.com/smallstep/certificates/releases/download/v{{ step_ca_version }}/step-ca_linux_{{ step_ca_version }}_{{ step_ca_arch[ansible_architecture] }}.tar.gz"
         dest: "{{ _tempfile.path }}"
-        remote_src: yes
+        remote_src: true
       retries: 3
       delay: 3
     - name: Install step-ca binary <0.23 # noqa no-changed-when

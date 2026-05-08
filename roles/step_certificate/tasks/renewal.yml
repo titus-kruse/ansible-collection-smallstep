@@ -1,9 +1,9 @@
 # shell is required due to "command" being a shell builtin
 - name: Get absolute step command path # noqa command-instead-of-shell
   shell: "command -v {{ step_cli_executable }}"
-  become: yes
-  check_mode: no
-  changed_when: no
+  become: true
+  check_mode: false
+  changed_when: false
   register: _step_cli_executable_absolute
 
 - name: Setup sudo permissions for renewal from step_cert_user
@@ -11,8 +11,8 @@
     - name: Get absolute systemctl command path # noqa command-instead-of-shell
       shell: "command -v systemctl"
       register: _step_systemctl_binary
-      changed_when: no
-      check_mode: no
+      changed_when: false
+      check_mode: false
     - name: Step user has sudo permissions to restart required systemd units
       template:
         src: sudo-renewal.j2
@@ -35,7 +35,7 @@
 
 - name: Ensure certificate renewal service is enabled and running
   systemd:
-    daemon_reload: yes
+    daemon_reload: true
     name: "{{ step_cert_renewal_service }}"
     state: started
-    enabled: yes
+    enabled: true

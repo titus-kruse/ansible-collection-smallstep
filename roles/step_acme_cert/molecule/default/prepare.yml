@@ -2,7 +2,7 @@
   tasks:
     - name: Update apt
       apt:
-        update_cache: yes
+        update_cache: true
 
 - hosts: rockylinux:fedora
   tasks:
@@ -40,7 +40,7 @@
       systemd:
         name: nginx
         state: stopped
-        enabled: no
+        enabled: false
 
     - name: Bootstrap host
       include_role:

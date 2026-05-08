@@ -9,7 +9,7 @@ argument_specs:
       # Provisioner Selection
       step_ca_token_provisioner:
         type: str
-        required: yes
+        required: true
         description: Name of the provisioner on the CA that will issue the certificate
       # Provisioner options
       step_ca_token_provisioner_password:

@@ -13,7 +13,7 @@ argument_specs:
       - |
         Requirements:
 
-        - Root access using C(become: yes) or equivalent
+        - Root access using C(become: true) or equivalent
       - |
         Supported distributions:
 
@@ -88,11 +88,11 @@ argument_specs:
       # CA Init options
       step_ca_name:
         type: str
-        required: yes
+        required: true
         description: The name of the new PKI
       step_ca_root_password:
         type: str
-        required: yes
+        required: true
         description: Password used to encrypt the root key
       step_ca_intermediate_password:
         type: str
@@ -114,7 +114,7 @@ argument_specs:
         description: URI of the Step Certificate Authority to write in defaults.json
       step_ca_ssh:
         type: bool
-        default: no
+        default: false
         description: Create keys to sign SSH certificates
       # Existing cert options
       step_ca_existing_root:

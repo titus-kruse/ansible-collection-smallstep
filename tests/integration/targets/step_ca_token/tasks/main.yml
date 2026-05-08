@@ -3,7 +3,7 @@
     name: "127.0.0.1"
     provisioner: "{{ ca_provisioner }}"
     provisioner_password_file: "{{ ca_provisioner_password_file }}"
-    return_token: yes
+    return_token: true
   register: generated_token
 
 - name: Verify that token got returned
@@ -15,5 +15,5 @@
     name: "127.0.0.1"
     provisioner: "{{ ca_provisioner }}"
     provisioner_password: "{{ ca_provisioner_password }}"
-    return_token: yes
+    return_token: true
   register: generated_token

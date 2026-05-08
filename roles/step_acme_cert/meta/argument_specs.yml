@@ -6,7 +6,7 @@ argument_specs:
       - |
         Requirements:
 
-        - Root access using C(become: yes) or equivalent
+        - Root access using C(become: true) or equivalent
         - The host must be bootstrapped with R(step_bootstrap_host,ansible_collections.maxhoesel.smallstep.step_bootstrap_host_role) and the root user must be able to access the CA
       - |
         Supported distributions:

@@ -12,16 +12,16 @@
 - name: Get absolute step command path # noqa command-instead-of-shell
   shell: "command -v {{ step_cli_executable }}"
   register: step_cli_executable_absolute
-  changed_when: no
-  check_mode: no
+  changed_when: false
+  check_mode: false
 
 - name: Setup sudo permissions for renewal from step_acme_cert_user
   block:
     - name: Get absolute systemctl command path # noqa command-instead-of-shell
       shell: "command -v systemctl"
       register: _step_systemctl_binary
-      changed_when: no
-      check_mode: no
+      changed_when: false
+      check_mode: false
     - name: Step user has sudo permissions to restart required systemd units
       template:
         src: sudo-renewal.j2
@@ -44,7 +44,7 @@
 
 - name: Renewal service is enabled and running
   systemd:
-    daemon_reload: yes
+    daemon_reload: true
     name: "{{ step_acme_cert_renewal_service }}"
     state: started
-    enabled: yes
+    enabled: true

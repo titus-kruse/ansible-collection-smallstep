@@ -20,7 +20,7 @@
     fingerprint: "{{ step_bootstrap_fingerprint }}"
     step_cli_executable: "{{ step_cli_executable }}"
     force: "{{ step_bootstrap_force | d(omit) }}"
-  become: yes
+  become: true
   become_user: "{{ item.user }}"
   environment:
     STEPPATH: "{{ item.steppath | d('') }}"
@@ -45,10 +45,10 @@
 
     - name: Check if cert is already installed
       ansible.builtin.command: "{{ step_cli_executable }} certificate verify {{ _install_check_steppath }}/certs/root_ca.crt"
-      become: yes
+      become: true
       become_user: "{{ _install_check_user }}"
-      changed_when: no
-      check_mode: no
+      changed_when: false
+      check_mode: false
       failed_when: step_bootstrap_installed.rc not in [0,1]
       register: step_bootstrap_installed
 

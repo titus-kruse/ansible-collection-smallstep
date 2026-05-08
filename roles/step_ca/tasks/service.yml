@@ -11,4 +11,4 @@
   systemd:
     name: step-ca.service
     state: started
-    enabled: yes
+    enabled: true

@@ -12,18 +12,18 @@
       ansible.builtin.uri:
         url: https://api.github.com/repos/smallstep/cli/releases/latest
         body_format: json
-        return_content: yes
+        return_content: true
       register: step_cli_latest_release
       delegate_to: localhost
-      become: no
-      run_once: yes
+      become: false
+      run_once: true
       retries: 3
       delay: 5
     - name: Set latest release version
       ansible.builtin.set_fact:
         step_cli_version: "{{ (step_cli_latest_release.json.tag_name)[1:] }}"
   when: step_cli_version == 'latest'
-  check_mode: no
+  check_mode: false
 
 - ansible.builtin.include_tasks: "install.yml"
 
@@ -33,8 +33,8 @@
 # needed due to community.general.capabilities not being idempotent on all systems
 - name: Check if step-cli has cap_net_bind_service capability
   ansible.builtin.command: getcap "{{ _step_cli_install_path }}"
-  changed_when: no
-  check_mode: no
+  changed_when: false
+  check_mode: false
   register: _getcap_output
 
 - name: Ensure step-cli can bind to ports <1024 (for acme standalone mode)

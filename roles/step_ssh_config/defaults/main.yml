@@ -7,8 +7,8 @@ step_ssh_config_steppath: "{{ ansible_env.HOME }}/.step"
 
 #step_bootstrap_ca_url:
 
-step_ssh_config_host: no
-step_ssh_config_roots: no
+step_ssh_config_host: false
+step_ssh_config_roots: false
 
 step_ssh_config_roots_ca_file: "{{ step_ssh_config_roots_ca_file_defaults }}"
 step_ssh_config_roots_ca_file_defaults:

@@ -18,7 +18,7 @@ The advantage of the `step` method is that no additional tools are required.
   - Fedora: `42`
   - RHEL(-compatible): `9, 10` (RockyLinux is used for testing)
   - Other distributions may work as well, but are not tested
-- Running this role requires root access. Make sure to run this role with `become: yes` or equivalent
+- Running this role requires root access. Make sure to run this role with `become: true` or equivalent
 - The host must be bootstrapped with `step_bootstrap_host` and at least one user must be able to access the CA.
 
 ## Role Variables
@@ -114,7 +114,7 @@ to make use of ACME certs.
 ```yaml
 # Configure your CA to include an ACME provisioner
 - hosts: step_ca
-  become: yes
+  become: true
   tasks:
     - name: Add an ACME provisioner to the CA
       maxhoesel.smallstep.step_ca_provisioner:
@@ -129,7 +129,7 @@ to make use of ACME certs.
         state: reloaded
 
 - hosts: clients
-  become: yes
+  become: true
   tasks:
     # Bootstrap the host to trust the CA
     - include_role:

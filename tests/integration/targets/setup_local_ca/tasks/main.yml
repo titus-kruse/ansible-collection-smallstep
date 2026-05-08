@@ -10,7 +10,7 @@
     environment:
       STEPPATH: "{{ ca_path }}"
     when: "'admin' in _provisioners.stdout"
-  become: yes
+  become: true
   become_user: "{{ ca_user }}"
   tags:
     - local-ca

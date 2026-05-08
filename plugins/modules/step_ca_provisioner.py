@@ -113,7 +113,7 @@ options:
       - private_key
   name:
     description: The name of the provisioner to add/remove.
-    required: yes
+    required: true
     type: str
   nebula_root:
     description: Root certificate (chain) file used to validate the signature on Nebula provisioning tokens.
@@ -370,14 +370,14 @@ EXAMPLES = r"""
   maxhoesel.smallstep.step_ca_provisioner:
     name: cicd
     type: JWK
-    jwk_create: yes
+    jwk_create: true
     x509_template: ./templates/example.tpl
 
 - name: Create a JWK provisioner with duration claims
   maxhoesel.smallstep.step_ca_provisioner:
     name: cicd
     type: JWK, cli
-    create: yes
+    create: true
     x509_min_dur: 20m
     x509_default_dur: 20m
     x509_max_dur: 24h
@@ -407,8 +407,8 @@ EXAMPLES = r"""
   maxhoesel.smallstep.step_ca_provisioner:
     name: acme
     type: ACME
-    force_cn: yes
-    require_eab: yes
+    force_cn: true
+    require_eab: true
 
 - name: Crate an K8SSA provisioner
   maxhoesel.smallstep.step_ca_provisioner:
