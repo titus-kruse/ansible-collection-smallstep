@@ -52,5 +52,5 @@
       vars:
         step_bootstrap_fingerprint: "{{ _ca_fingerprint.stdout }}"
         step_bootstrap_users:
-          - user: "{{ web_user[ansible_os_family] }}"
+          - user: "{{ web_user[ansible_facts.os_family] }}"
             steppath: "{{ step_acme_cert_steppath }}"

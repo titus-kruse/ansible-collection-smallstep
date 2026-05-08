@@ -67,7 +67,7 @@ before setting up a renewal service using `step-cli ca renew`s `--daemon` mode.
 
 ##### `step_cert_name`
 - The subject name that the certificate will be issued for
-- Default: `{{ ansible_fqdn }}`
+- Default: `{{ ansible_facts.fqdn }}`
 
 ##### `step_cert_san`
 - Subject Alternate Names to add to the cert

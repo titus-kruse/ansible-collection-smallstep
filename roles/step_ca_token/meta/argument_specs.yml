@@ -23,7 +23,7 @@ argument_specs:
       # Certificate Options
       step_ca_token_subject:
         type: str
-        default: '{{ ansible_fqdn }}'
+        default: '{{ ansible_facts.fqdn }}'
         description: The subject name for which the certificate will be issued
       step_ca_token_san:
         type: list

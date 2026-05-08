@@ -31,7 +31,7 @@ argument_specs:
       # Certificate Options
       step_cert_name:
         type: str
-        default: '{{ ansible_fqdn }}'
+        default: "{{ ansible_facts.fqdn }}"
         description: The subject name for which the certificate will be issued
       step_cert_san:
         type: list
@@ -43,7 +43,7 @@ argument_specs:
         description: Valid duration of the certificate
       step_cert_contact:
         type: str
-        default: 'root@{{ ansible_fqdn }}'
+        default: "root@{{ ansible_facts.fqdn }}"
         description: Contact email for the CA for important notifications
       step_cert_certfile:
         type: dict

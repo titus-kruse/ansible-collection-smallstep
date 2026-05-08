@@ -225,7 +225,7 @@ EXAMPLES = r"""
 # See https://smallstep.com/docs/step-cli/reference/ca/certificate for more examples
 - name: Ensure valid certificate exists
   maxhoesel.smallstep.step_ca_certificate:
-    name: "{{ ansible_fqdn }}"
+    name: "{{ ansible_facts.fqdn }}"
     crt_file: "/etc/ssl/my.cert"
     key_file: "/etc/ssl/my.key"
     provisioner: "jwk"
@@ -238,7 +238,7 @@ EXAMPLES = r"""
 
 - name: Use custom root to verify existing cert
   maxhoesel.smallstep.step_ca_certificate:
-    name: "{{ ansible_fqdn }}"
+    name: "{{ ansible_facts.fqdn }}"
     crt_file: "/etc/ssl/my.cert"
     key_file: "/etc/ssl/my.key"
     provisioner: "jwk"
@@ -255,14 +255,14 @@ EXAMPLES = r"""
 
 - name: Ensure cert is revoked
   maxhoesel.smallstep.step_ca_certificate:
-    name: "{{ ansible_fqdn }}"
+    name: "{{ ansible_facts.fqdn }}"
     crt_file: "/etc/ssl/my.cert"
     key_file: "/etc/ssl/my.key"
     state: revoked
 
 - name: Ensure cert is absent (and revoke if first if it isn't)
   maxhoesel.smallstep.step_ca_certificate:
-    name: "{{ ansible_fqdn }}"
+    name: "{{ ansible_facts.fqdn }}"
     crt_file: "/etc/ssl/my.cert"
     key_file: "/etc/ssl/my.key"
     state: absent

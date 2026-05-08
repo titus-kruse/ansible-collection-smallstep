@@ -3,7 +3,7 @@ step_cli_executable: step-cli
 #step_cli_steppath: /root/.step
 
 step_ssh_config_user: root
-step_ssh_config_steppath: "{{ ansible_env.HOME }}/.step"
+step_ssh_config_steppath: "{{ ansible_facts.env.HOME }}/.step"
 
 #step_bootstrap_ca_url:
 

@@ -11,9 +11,9 @@ step_cert_user: root
 # path to ACME provisioner web root for HTTP-01 challenge.
 step_cert_acme_webroot_path: ""
 
-step_cert_name: "{{ ansible_fqdn }}"
+step_cert_name: "{{ ansible_facts.fqdn }}"
 step_cert_san: []
-step_cert_contact: "root@{{ ansible_fqdn }}"
+step_cert_contact: "root@{{ ansible_facts.fqdn }}"
 #step_cert_duration: 24h
 
 step_cert_certfile: "{{ step_cert_certfile_defaults }}"

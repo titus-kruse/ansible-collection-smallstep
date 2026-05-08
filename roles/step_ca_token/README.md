@@ -44,7 +44,7 @@ This role uses `step-cli` to generate tokens by configured CA.
     # See the step_ca_token README for more options
     - role: maxhoesel.smallstep.step_ca_token
       vars:
-        step_ca_token_subject: "{{ ansible_fqdn }}"
+        step_ca_token_subject: "{{ ansible_facts.fqdn }}"
         step_ca_token_provisioner: jwk
         step_ca_token_provisioner_password: "secret"
       debug:

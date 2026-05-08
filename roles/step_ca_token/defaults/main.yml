@@ -7,7 +7,7 @@ step_cli_steppath: /root/.step
 #step_ca_token_provisioner_password:
 #step_ca_token_provisioner_password_file:
 
-step_ca_token_subject: "{{ ansible_fqdn }}"
+step_ca_token_subject: "{{ ansible_facts.fqdn }}"
 step_ca_token_san: []
 step_ca_token_principal: []
 step_ca_token_host: false
