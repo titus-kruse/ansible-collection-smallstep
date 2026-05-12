@@ -19,4 +19,3 @@ step_ssh_cert_renewal_service_name: step-renew-ssh
 step_ssh_cert_renewal_service_enabled: true
 step_ssh_cert_renewal_service_interval: 'daily'
 #step_ssh_cert_renewal_when: 8h
-step_ssh_cert_renewal_reload_services: [ssh.service]

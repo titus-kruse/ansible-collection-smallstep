@@ -104,13 +104,13 @@ The daemon will run as the user defined in `step_cert_user`.
 - Renew the cert when its remaining valid time crosses this threshold
 - Default: undefined (uses the smallstep default: 1/3 of the certificates valid duration, e.g. 8 hours for a 24h cert)
 
-##### `step_cert_renewal_reload_services`
-- Reload or restart these `systemd` services after a cert renewal
-- Must be a list of `systemd` units
-- If `step_cert_user` is not root, a sudoers entry will be added to permit the user to reload-restart these service units.
-  This sudoers policy is restricted to the single command needed to achieve this. Requires `sudo` to be installed
-- Example: `["nginx", "mysqld"]`
-- Default: `[]`
+##### `step_cert_renewal_reload_command`
+- Command to be executed after a certificate renewal
+- If `step_cert_user` is not root, a sudoers entry will be added to permit the user to execute this command.
+  Be careful when specifying the command as it will be run as root!
+  This sudoers policy is restricted to the command needed to achieve this. Requires `sudo` to be installed
+- Example: `"/usr/bin/systemctl try-reload-or-restart nginx mysqld"`
+- Default: `""` (no command will be executed after certificate renewal)
 
 ## Example Playbooks
 

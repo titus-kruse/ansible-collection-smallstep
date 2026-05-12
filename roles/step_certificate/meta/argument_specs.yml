@@ -93,8 +93,7 @@ argument_specs:
       step_cert_renewal_when:
         type: str
         description: Renew the certificate when its remaining valid time crosses this threshold
-      step_cert_renewal_reload_services:
-        type: list
-        elements: str
-        default: []
-        description: Reload or restart these systemd services after a certificate renewal
+      step_cert_renewal_reload_command:
+        type: str
+        default: ""
+        description: Command to be executed after a certificate renewal

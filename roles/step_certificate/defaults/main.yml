@@ -32,4 +32,4 @@ step_cert_keyfile_defaults:
 # Use step-cli daamon as default
 step_cert_renewal_service: step-renew
 #step_cert_renewal_when: 8h
-step_cert_renewal_reload_services: []
+step_cert_renewal_reload_command: ""

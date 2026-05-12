@@ -4,7 +4,8 @@
     name: '{{ step_cert_renewal_service }}'
     state: restarted
 
-- name: reload affected services
-  command: systemctl try-reload-or-restart {{ step_cert_renewal_reload_services | join(' ') }}
-  when: step_cert_renewal_reload_services | length > 0
-  ignore_errors: true
+# Currently unused
+#- name: reload affected services
+#  command: "{{ step_cert_renewal_reload_command }}"
+#  when: step_cert_renewal_reload_command is defined and step_cert_renewal_reload_command | length > 0
+#  ignore_errors: true

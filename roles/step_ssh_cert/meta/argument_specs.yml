@@ -72,8 +72,3 @@ argument_specs:
       step_ssh_cert_renewal_when:
         type: str
         description: Renew the certificate when its remaining valid time crosses this threshold
-      step_ssh_cert_renewal_reload_services:
-        type: list
-        elements: str
-        default: [ssh.service]
-        description: Reload or restart these systemd services after a certificate renewal
