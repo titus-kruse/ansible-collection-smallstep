@@ -1,4 +1,4 @@
-COLLECTION_VERSION = "0.24.7"
+COLLECTION_VERSION = "0.24.8"
 COLLECTION_MIN_STEP_CLI_VERSION = "0.24.0"
 COLLECTION_REPO = "https://github.com/maxhoesel-ansible/ansible-collection-smallstep"
 
